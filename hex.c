@@ -1,9 +1,9 @@
 #include <jni.h>
 #include <stdio.h>
 
-#include "libHex.h"
+#include "hex.h"
 
-JNIEXPORT void JNICALL Java_Test_helloWorld
+JNIEXPORT void JNICALL Java_Hex_helloWorld
   (JNIEnv * env, jclass class)
   {
 	  printf("Hello world\n");

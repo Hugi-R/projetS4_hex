@@ -4,19 +4,20 @@
 CFLAGS = -Wall -g -std=c99
 LDFLAGS = 
 
-JINCLUDE = -I/usr/lib/jvm/java-7-openjdk-amd64/include \
--I/usr/lib/jvm/java-7-openjdk-amd64/include/linux
+#MODIFIER JDKPATH SELON VOTRE INSTALLATION
+#une façon simple pour avoir une idée du chemin d'installation sous linux : readlink -f $(which java)
+JDKPATH = /usr/lib/jvm/java-7-openjdk-amd64/
+JINCLUDE = -I$(JDKPATH)include -I$(JDKPATH)include/linux
 
-#Java
 JC = javac
 JFLAGS = -g
-CLASS = Test.java
+JAVAFILES = Hex.java
 
-BINDIR = bin
+#BINDIR = bin
 OBJDIR = obj
 
 #pour clean
-EXEC = 
+#EXEC = 
 
 
 
@@ -33,19 +34,20 @@ $(OBJDIR)/%.o: %.c
 	
 #Java
 classes:
-	$(JC) $(JFLAGS) $(CLASS)
+	$(JC) $(JFLAGS) $(JAVAFILES)
+	mv *.class $(OBJDIR)
 
 #compile la bibliothèque utilisée par la partie java
 libHex:
-	$(CC) -fPIC $(JINCLUDE) -o $(OBJDIR)/libHex.o -c libHex.c
-	$(CC) -shared -o libHex.so $(OBJDIR)/libHex.o
+	$(CC) -fPIC $(JINCLUDE) -o $(OBJDIR)/hex.o -c hex.c
+	$(CC) -shared -o libhex.so $(OBJDIR)/hex.o
 	
 
 create_dir:
 	mkdir obj
-	mkdir bin
+#	mkdir bin
 
 clean:
 	rm -f $(OBJDIR)/*.o
-	rm -f $(BINDIR)/$(EXEC)
+#	rm -f $(BINDIR)/$(EXEC)
 	rm -f *.class
