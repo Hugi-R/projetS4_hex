@@ -60,4 +60,7 @@ char* grilleToString (Grille g );
  */
 Grille grilleFromTab ( int* tab );
 
+void affichage (Grille g) ;
+
+void deplacement ( Grille g);
 #endif

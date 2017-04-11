@@ -2,5 +2,8 @@
 
 int main(){
  Grille g;
- g = creation(7);
+ g = creation(3);
+ affichage(g);
+ deplacement(g);
 }
+
