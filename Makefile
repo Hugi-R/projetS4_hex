@@ -1,25 +1,36 @@
-#TODO : compilation sur Windows
+# Visiblement la console windows accepte / comme délimiteur entre dossier (ainsi que \)
 
-#CC = gcc
+#----Windows ou Linux----
+ifeq ($(OS),Windows_NT)
+	LIBCMD = -shared -o hex.dll $(OBJDIR)/hex.o hex.def
+	RM = del /Q
+	OSDIR = win32
+else
+	LIBCMD = -shared -o libhex.so $(OBJDIR)/hex.o
+	RM = rm -f
+	OSDIR = linux
+endif
+#------------------------
+
+#--Variables modifiables-
+# A MODIFIER SELON VOTRE INSTALLATION
+CC = gcc
+JDKPATH = C:/Program\ Files/Java/jdk1.8.0_111/
+#une façon simple pour avoir une idée du chemin d'installation sous linux : readlink -f $(which java)
+#ne pas oublier d'ignorer les espaces avec un \
+
+JC = $(JDKPATH)bin/javac
+JINCLUDE = -I$(JDKPATH)include -I$(JDKPATH)include/$(OSDIR)
+
 CFLAGS = -Wall -g -std=c99
 LDFLAGS = 
 
-#MODIFIER JDKPATH SELON VOTRE INSTALLATION
-#une façon simple pour avoir une idée du chemin d'installation sous linux : readlink -f $(which java)
-JDKPATH = /usr/lib/jvm/java-7-openjdk-amd64/
-JINCLUDE = -I$(JDKPATH)include -I$(JDKPATH)include/linux
-
-JC = javac
 JFLAGS = -g
-JAVAFILES = Hex.java
 
-#BINDIR = bin
 OBJDIR = obj
+#------------------------
 
-#pour clean
-#EXEC = 
-
-
+JAVAFILES = Hex.java
 
 .PHONY: all clean create_dir
 
@@ -35,19 +46,17 @@ $(OBJDIR)/%.o: %.c
 #Java
 classes:
 	$(JC) $(JFLAGS) $(JAVAFILES)
-	mv *.class $(OBJDIR)
+
 
 #compile la bibliothèque utilisée par la partie java
 libHex:
 	$(CC) -fPIC $(JINCLUDE) -o $(OBJDIR)/hex.o -c hex.c
-	$(CC) -shared -o libhex.so $(OBJDIR)/hex.o
+	$(CC) $(LIBCMD)
 	
 
 create_dir:
 	mkdir obj
-#	mkdir bin
 
 clean:
-	rm -f $(OBJDIR)/*.o
-#	rm -f $(BINDIR)/$(EXEC)
-	rm -f *.class
+	$(RM) $(OBJDIR)/*.o
+	$(RM) *.class
