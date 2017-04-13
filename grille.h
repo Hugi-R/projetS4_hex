@@ -9,6 +9,7 @@
 #define BRED1 -2
 #define BBLU2 -11
 #define BRED2 -22
+
 typedef struct s_grille *Grille ;
 
 /**
@@ -26,9 +27,9 @@ void destruction( Grille g);
  * 	@param g la grille pour accéder 
  *	@param l la ligne de la case a modifier
  *	@param c la colonne de la case a modifier
- *	@param pion la valeur du pion 
+ *	@param pion la valeur du pion ( RED ou BLU )
  */
-void ajouterPion( Grille g ,int l , int c , int pion );
+void ajouterPion( Grille *g ,int l , int c , int pion );
 
 
 
@@ -63,8 +64,9 @@ char* grilleToString (Grille g );
 /**
  * @brief construit une grille depuis un tableau de valeur 
  * @param g la grille pour accéder 
+ * @param t la taille de la grille
  */
-Grille grilleFromTab ( int* tab );
+Grille grilleFromTab ( int* tab , int t );
 
 void affichage (Grille g) ;
 

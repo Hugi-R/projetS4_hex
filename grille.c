@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-
+#include <assert.h>
 
 typedef struct s_node *Node;
  
@@ -150,6 +150,7 @@ Grille creation( int t )
   creaBordBasGraph(&g);
   return g ;
 }
+
 void verif(Grille g){
   for (int i = 0 ; i < g->size *g->size; i++){
     printf("\ncote de %d ",i); 
@@ -159,11 +160,13 @@ void verif(Grille g){
   }
   printf("\n");
 }
+
 void destructionNode ( Node n ) {
   free(n->cote);
   free(n);
   
 }
+
 void destruction(Grille g)
 {
     for (int i=0; i<(g->size*g->size);i++){
@@ -176,5 +179,50 @@ void destruction(Grille g)
       destructionNode(g->bord[i]);
     }
     free(g->bord);
+}
+bool coupValide(Grille g, int l, int c)
+{
+  return g->Tab[l*(g->size)+c]->color == VID;
+}
+
+
+void ajouterPion(Grille *g, int l, int c, int pion)
+{
+    assert(coupValide(*g,l,c));
+    (*g)->Tab[l*(*g)->size+c]->color = pion ;
+     
+}
+
+int* grilleToTab(Grille g)
+{
+  int t = g->size*g->size;
+  int *tab = (int*) calloc ((size_t)t , sizeof (int));
+  for ( int i = 0; i<t;i++){
+    tab[i]=g->Tab[1]->color;
+    //printf(" %d ",tab[i]);
+  }
+  return tab ;
+}
+
+char* grilleToString(Grille g)
+ {
+   int t = g->size*g->size;
+   char *tab = (char*) malloc ( sizeof (char)*t+1);
+   for ( int i = 0; i<t;i++){
+     tab[i] = (char)(g->Tab[1]->color)+48;
+   }
+   tab[t] = '\0';
+  return tab ;
+}
+
+Grille grilleFromTab(int* tab, int t)
+{
+  Grille g = creation(t);
+  for ( int i = 0; i<t;i++){
+    for (int j = 0 ;j<t;j++){
+      ajouterPion(&g,i,j,tab[i*t+j]);
+    }
+  }
+  return g ;
 }
 
