@@ -1,7 +1,9 @@
 #ifndef _GRILLE_H_
 #define _GRILLE_H_
 
-typedef s_grille *Grille ;
+#include <stdbool.h>
+
+typedef struct s_grille *Grille;
 
 /**
  * @brief construction d'une grille de taille t 
