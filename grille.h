@@ -68,9 +68,18 @@ char* grilleToString (Grille g );
  */
 Grille grilleFromTab ( int* tab , int t );
 
+/**
+ * @brief return les numeros des différents voisin
+ * @param g la grille pour accéder
+ * @param node le numero de la node à analyser
+ * @param un tableau de 6 entiers correspondant aux voisins
+ */
+void voisin ( Grille g, int node, int Tab[] );
+
 void affichage (Grille g) ;
 
 void verif (Grille g);
 void deplacement ( Grille g);
+
 
 #endif

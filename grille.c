@@ -226,3 +226,10 @@ Grille grilleFromTab(int* tab, int t)
   return g ;
 }
 
+void voisin(Grille g, int node , int Tab[])
+{
+  for (int i = 0 ; i <6 ; i++){
+    Tab[i] = g->Tab[node]->cote[i]->numero;
+  }
+}
+
