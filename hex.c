@@ -1,5 +1,6 @@
 #include <jni.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "hex.h"
 #include "grille.h"
@@ -26,15 +27,54 @@ JNIEXPORT void JNICALL Java_Hex_grilleDestruction
   
 JNIEXPORT void JNICALL Java_Hex_grilleAjouterPion
   (JNIEnv *env, jobject o, jlong g, jint l, jint c, jint pion){
-	  ajouterPion( (Grille)g ,(int)l , (int)c , (int)pion );
+	  Grille gr = (Grille)g;
+	  ajouterPion( &gr ,(int)l , (int)c , (int)pion );
   }
   
 JNIEXPORT jboolean JNICALL Java_Hex_grilleCoupValide
-  (JNIEnv *, jobject, jlong, jint, jint){
+  (JNIEnv *env, jobject o, jlong g, jint l, jint c){
 	  return (jboolean) coupValide( (Grille)g , (int)l , (int)c );
   }
   
 JNIEXPORT jint JNICALL Java_Hex_grilleVainqueur
-  (JNIEnv *, jobject, jlong){
+  (JNIEnv *env, jobject o, jlong g){
 	  return (jint) vainqueur( (Grille) g);
   }
+  
+JNIEXPORT jintArray JNICALL Java_Hex_grilleToTab
+  (JNIEnv *env, jobject o, jlong g){
+	  int size;
+	  int *gTab = grilleToTab( (Grille)g , &size);
+	  
+	  jintArray jTab = (*env)->NewIntArray(env, (jsize)size );
+	  if(jTab == NULL) return NULL;
+	  (*env)->SetIntArrayRegion(env, jTab, 0, (jsize)size, gTab);
+	  free(gTab);
+	  return jTab;
+  }
+  
+JNIEXPORT jstring JNICALL Java_Hex_grilleToString
+  (JNIEnv *env, jobject o, jlong g){
+	  char *gStr = grilleToString ( (Grille)g );
+	  jstring jStr = (*env)->NewStringUTF(env, gStr);
+	  free(gStr);
+	  return jStr;
+  }
+  
+JNIEXPORT jlong JNICALL Java_Hex_grilleFromTab
+  (JNIEnv *env, jobject o, jintArray jTab){
+	  jsize t = (*env)->GetArrayLength(env, jTab);
+	  int *cTab = (*env)->GetIntArrayElements(env, jTab, NULL);
+	  if(cTab == NULL) return (jlong)NULL;
+	  
+	  jlong g = (jlong) grilleFromTab ( cTab , (int)t );
+	  
+	  (*env)->ReleaseIntArrayElements(env, jTab, cTab, 0);
+	  return g; 
+  }
+  
+  
+  
+  
+  
+  

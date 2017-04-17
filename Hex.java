@@ -58,16 +58,17 @@ public class Hex{
 	 * @param g la grille pour accéder 
 	 * @param t la taille de la grille
 	 */
-	public native long grilleFromTab ( int[] tab , int t );
+	public native long grilleFromTab ( int[] tab );
 	
 	/**
 	 * @brief return les numeros des différents voisin
 	 * @param g la grille pour accéder
 	 * @param node le numero de la node à analyser
 	 * @param un tableau de 6 entiers correspondant aux voisins
-	 */
-	public native void voisin ( long g, int node, int[] tab );
-	
+	 *
+	 SERA AJOUTER PLUS TARD SI NECESSAIRE
+	public native void grilleVoisin ( long g, int node, int[] tab );
+	*/
 	static public void main(String[] args){
 		helloWorld();
 		Hex h = new Hex();
