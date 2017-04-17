@@ -1,0 +1,10 @@
+EXPORTS
+Java_Hex_helloWorld
+Java_Hex_grilleCreation
+Java_Hex_grilleDestruction
+Java_Hex_grilleAjouterPion
+Java_Hex_grilleCoupValide
+Java_Hex_grilleVainqueur
+Java_Hex_grilleToTab
+Java_Hex_grilleToString
+Java_Hex_grilleFromTab
