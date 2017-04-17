@@ -53,7 +53,7 @@ int vainqueur ( Grille g) ;
  * @param g la grille pour accéder 
  * @return la grille sous forme d'un tableau
  */
-int* grilleToTab( Grille g );
+int* grilleToTab( Grille g , int *size);
 
 /**
  * @param g la grille pour accéder 
@@ -74,7 +74,7 @@ Grille grilleFromTab ( int* tab , int t );
  * @param node le numero de la node à analyser
  * @param un tableau de 6 entiers correspondant aux voisins
  */
-void voisin ( Grille g, int node, int Tab[] );
+void voisin ( Grille g, int node, int tab[] );
 
 void affichage (Grille g) ;
 

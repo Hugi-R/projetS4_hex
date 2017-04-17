@@ -43,7 +43,7 @@ public class Hex{
 
 	/**
 	 * @param g la grille pour accéder 
-	 * @return la grille sous forme d'un tableau
+	 * @return la grille sous forme d'un tableau, NULL s'il y a eu un problème
 	 */
 	public native int[] grilleToTab( long g );
 	
@@ -60,7 +60,19 @@ public class Hex{
 	 */
 	public native long grilleFromTab ( int[] tab , int t );
 	
+	/**
+	 * @brief return les numeros des différents voisin
+	 * @param g la grille pour accéder
+	 * @param node le numero de la node à analyser
+	 * @param un tableau de 6 entiers correspondant aux voisins
+	 */
+	public native void voisin ( long g, int node, int[] tab );
+	
 	static public void main(String[] args){
 		helloWorld();
+		Hex h = new Hex();
+		long grille = h.grilleCreation(5);
+		System.out.println( h.grilleToString(grille) );
+		
 	}
 }

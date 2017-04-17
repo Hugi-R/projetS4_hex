@@ -79,6 +79,14 @@ JNIEXPORT jstring JNICALL Java_Hex_grilleToString
 JNIEXPORT jlong JNICALL Java_Hex_grilleFromTab
   (JNIEnv *, jobject, jintArray, jint);
 
+/*
+ * Class:     Hex
+ * Method:    voisin
+ * Signature: (JI[I)V
+ */
+JNIEXPORT void JNICALL Java_Hex_voisin
+  (JNIEnv *, jobject, jlong, jint, jintArray);
+
 #ifdef __cplusplus
 }
 #endif

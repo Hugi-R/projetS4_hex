@@ -4,6 +4,9 @@
 #include "hex.h"
 #include "grille.h"
 
+/* Les conversions long<->pointer sont volontaire.
+   Il n'y a pas de type pour les pointer en java. */
+
 JNIEXPORT void JNICALL Java_Hex_helloWorld
   (JNIEnv * env, jclass class)
   {
@@ -26,3 +29,12 @@ JNIEXPORT void JNICALL Java_Hex_grilleAjouterPion
 	  ajouterPion( (Grille)g ,(int)l , (int)c , (int)pion );
   }
   
+JNIEXPORT jboolean JNICALL Java_Hex_grilleCoupValide
+  (JNIEnv *, jobject, jlong, jint, jint){
+	  return (jboolean) coupValide( (Grille)g , (int)l , (int)c );
+  }
+  
+JNIEXPORT jint JNICALL Java_Hex_grilleVainqueur
+  (JNIEnv *, jobject, jlong){
+	  return (jint) vainqueur( (Grille) g);
+  }

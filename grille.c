@@ -193,7 +193,7 @@ void ajouterPion(Grille *g, int l, int c, int pion)
      
 }
 
-int* grilleToTab(Grille g)
+int* grilleToTab(Grille g, int *size)
 {
   int t = g->size*g->size;
   int *tab = (int*) calloc ((size_t)t , sizeof (int));
@@ -201,6 +201,7 @@ int* grilleToTab(Grille g)
     tab[i]=g->Tab[1]->color;
     //printf(" %d ",tab[i]);
   }
+  *size = t;
   return tab ;
 }
 
