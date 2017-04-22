@@ -50,10 +50,14 @@ bool coupValide ( Grille g , int l , int c );
 int vainqueur ( Grille g) ;
 
 /**
+ * @return la taille de la grille
+ */
+int getSizeGrille(Grille g);
+/**
  * @param g la grille pour accéder 
  * @return la grille sous forme d'un tableau
  */
-int* grilleToTab( Grille g , int *size);
+int* grilleToTab( Grille g );
 
 /**
  * @param g la grille pour accéder 
@@ -74,7 +78,7 @@ Grille grilleFromTab ( int* tab , int t );
  * @param node le numero de la node à analyser
  * @param un tableau de 6 entiers correspondant aux voisins
  */
-void voisin ( Grille g, int node, int tab[] );
+void voisin ( Grille g, int node, int Tab[] );
 
 void affichage (Grille g) ;
 
