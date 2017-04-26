@@ -74,20 +74,27 @@ JNIEXPORT jstring JNICALL Java_Hex_grilleToString
 /*
  * Class:     Hex
  * Method:    grilleFromTab
- * Signature: ([II)J
+ * Signature: ([I)J
  */
 JNIEXPORT jlong JNICALL Java_Hex_grilleFromTab
   (JNIEnv *, jobject, jintArray);
 
 /*
  * Class:     Hex
- * Method:    voisin
+ * Method:    grilleVoisinsNode
  * Signature: (JI[I)V
- *
- SERA AJOUTER PLUS TARD SI NECESSAIRE
-JNIEXPORT void JNICALL Java_Hex_grilleVoisin
+ */
+JNIEXPORT void JNICALL Java_Hex_grilleVoisinsNode
   (JNIEnv *, jobject, jlong, jint, jintArray);
-*/
+
+/*
+ * Class:     Hex
+ * Method:    GrilleGetSize
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_Hex_GrilleGetSize
+  (JNIEnv *, jobject, jlong);
+
 #ifdef __cplusplus
 }
 #endif

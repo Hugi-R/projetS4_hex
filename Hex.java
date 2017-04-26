@@ -64,11 +64,16 @@ public class Hex{
 	 * @brief return les numeros des différents voisin
 	 * @param g la grille pour accéder
 	 * @param node le numero de la node à analyser
-	 * @param un tableau de 6 entiers correspondant aux voisins
-	 *
-	 SERA AJOUTER PLUS TARD SI NECESSAIRE
-	public native void grilleVoisin ( long g, int node, int[] tab );
-	*/
+	 * @param un tableau de retour de 6 entiers correspondant aux voisins
+	 */
+	public native void grilleVoisinsNode ( long g, int node, int[] tab );
+	
+	/**
+	 * @return la taille de la grille
+	 */
+	public native int GrilleGetSize(long g);
+	
+	
 	static public void main(String[] args){
 		helloWorld();
 		Hex h = new Hex();
