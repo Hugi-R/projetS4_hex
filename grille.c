@@ -202,9 +202,10 @@ int getSizeGrille(Grille g){
   return g->size;
 }
 
-int* grilleToTab(Grille g)
+int* grilleToTab(Grille g, int *size) 
 {
   int t = g->size*g->size;
+  *size = t;
   int *tab = (int*) calloc ((size_t)t , sizeof (int));
   for ( int i = 0; i<t;i++){
     tab[i]=g->Tab[1]->color;

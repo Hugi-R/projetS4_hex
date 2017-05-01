@@ -84,17 +84,23 @@ JNIEXPORT jlong JNICALL Java_Hex_grilleFromTab
 	  return g; 
   }
   
-JNIEXPORT jint JNICALL Java_Hex_GrilleGetSize
+JNIEXPORT jint JNICALL Java_Hex_grilleGetSize
   (JNIEnv *env, jobject o, jlong g)
   {
 	  return (jint) getSizeGrille( (Grille) g );
   }
 
-JNIEXPORT void JNICALL Java_Hex_grilleVoisinsNode
-  (JNIEnv *env, jobject o, jlong g, jint node, jintArray jTab)
+JNIEXPORT jintArray JNICALL Java_Hex_grilleVoisinsNode
+  (JNIEnv *env, jobject o, jlong g, jint node)
   {
+	  int tab[6];
+	  voisin( (Grille)g, (int)node, tab );
 	  
+	  jintArray jTab = (*env)->NewIntArray(env, 6 );
+	  if(jTab == NULL) return NULL;
+	  (*env)->SetIntArrayRegion(env, jTab, 0, 6, tab);
 	  
+	  return jTab;
   }
   
   

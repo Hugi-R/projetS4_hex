@@ -84,15 +84,15 @@ JNIEXPORT jlong JNICALL Java_Hex_grilleFromTab
  * Method:    grilleVoisinsNode
  * Signature: (JI[I)V
  */
-JNIEXPORT void JNICALL Java_Hex_grilleVoisinsNode
-  (JNIEnv *, jobject, jlong, jint, jintArray);
+JNIEXPORT jintArray JNICALL Java_Hex_grilleVoisinsNode
+  (JNIEnv *, jobject, jlong, jint);
 
 /*
  * Class:     Hex
  * Method:    GrilleGetSize
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_Hex_GrilleGetSize
+JNIEXPORT jint JNICALL Java_Hex_grilleGetSize
   (JNIEnv *, jobject, jlong);
 
 #ifdef __cplusplus

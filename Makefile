@@ -15,7 +15,8 @@ endif
 #--Variables modifiables-
 # A MODIFIER SELON VOTRE INSTALLATION
 CC = gcc
-JDKPATH = /usr/lib/jvm/java-7-openjdk-amd64/
+JDKPATH = /cygdrive/c/Program\ Files/Java/jdk1.8.0_121/
+
 #une façon simple pour avoir une idée du chemin d'installation sous linux : readlink -f $(which java)
 #ne pas oublier d'ignorer les espaces avec un \
 

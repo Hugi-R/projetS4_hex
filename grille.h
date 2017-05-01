@@ -57,7 +57,7 @@ int getSizeGrille(Grille g);
  * @param g la grille pour accéder 
  * @return la grille sous forme d'un tableau
  */
-int* grilleToTab( Grille g );
+int* grilleToTab(Grille g, int *size);
 
 /**
  * @param g la grille pour accéder 
