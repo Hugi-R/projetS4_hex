@@ -1,0 +1,10 @@
+EXPORTS
+Java_Grille_helloWorld
+Java_Grille_grilleCreation
+Java_Grille_grilleDestruction
+Java_Grille_grilleAjouterPion
+Java_Grille_grilleCoupValide
+Java_Grille_grilleVainqueur
+Java_Grille_grilleToTab
+Java_Grille_grilleToString
+Java_Grille_grilleFromTab

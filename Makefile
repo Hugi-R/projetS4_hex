@@ -2,11 +2,11 @@
 
 #----Windows ou Linux----
 ifeq ($(OS),Windows_NT)
-	LIBCMD = -shared -fPIC -std=c99 $(JINCLUDE) -o hex.dll hex.def $(CFILES)
+	LIBCMD = -shared -fPIC -std=c99 $(JINCLUDE) -o grille_jni.dll grille_jni.def $(CFILES)
 	RM = del /Q
 	OSDIR = win32
 else
-	LIBCMD = -shared -fPIC -std=c99 $(JINCLUDE) -o libhex.so $(CFILES)
+	LIBCMD = -shared -fPIC -std=c99 $(JINCLUDE) -o libgrille_jni.so $(CFILES)
 	RM = rm -f
 	OSDIR = linux
 endif
@@ -15,9 +15,9 @@ endif
 #--Variables modifiables-
 # A MODIFIER SELON VOTRE INSTALLATION
 CC = gcc
-JDKPATH = /cygdrive/c/Program\ Files/Java/jdk1.8.0_121/
+JDKPATH = /usr/lib/jvm/java-7-openjdk-amd64/
 
-#une façon simple pour avoir une idée du chemin d'installation sous linux : readlink -f $(which java)
+#une façon simple pour avoir une idée du chemin d'installation sous linux : readlink -f $(which javac)
 #ne pas oublier d'ignorer les espaces avec un \
 
 JC = $(JDKPATH)bin/javac
@@ -30,8 +30,8 @@ JFLAGS = -g
 
 #OBJDIR = obj
 #------------------------
-CFILES = hex.c grille.c
-JAVAFILES = Hex.java
+CFILES = grille_jni.c grille.c
+JAVAFILES = Grille.java Tests.java
 
 .PHONY: all clean create_dir
 
