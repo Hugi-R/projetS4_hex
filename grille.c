@@ -6,19 +6,44 @@
 
 typedef struct s_node *Node;
  
+typedef struct s_groupe{
+	Node *tab;
+	int size;
+} *Groupe;
+ 
 struct s_node{
    Node *cote; // tableau de 6 node 
    int numero ;
    int color;
+   Groupe groupe; // le groupe de la node
   };
   
   
 struct s_grille{
   Node bord[4];
   int size ;
-  Node *Tab;
+  Node *Tab; //tableau des nodes
+  Groupe *groupes; //tableau des groupes
+  int nbGroupes;
  };
  
+Groupe _creaGroupe(){
+	Groupe g = (Groupe) malloc( sizeof(struct s_groupe) );
+	g->tab = NULL;
+	g->size = 0;
+}
+
+void _destroyGroupe(Groupe grp){
+	free(grp->tab);
+	free(grp);
+}
+
+Groupe _addGroupe(Groupe *grp, Node n){
+	(*grp)->size += 1;
+	(*grp)->tab = (Node*) realloc(*grp, (size_t)(*grp)->size );
+	(*grp)->tab[(*grp)->size - 1] = n;
+}
+
 Node* creaAllNode( int t ){
     int cpt =t*t;
     Node* tab = (Node*) calloc ((size_t)cpt,sizeof(Node )); // a faire dynamiquement
@@ -26,12 +51,13 @@ Node* creaAllNode( int t ){
     for ( int i = 0 ; i < cpt ;i++){
       n = (Node) malloc (sizeof ( struct s_node )) ;
       if ( n == NULL){
-	printf("Unable to allocate memory");
-	exit(1);
+		printf("Unable to allocate memory");
+		exit(1);
       }
       n->cote = (Node*) calloc ((size_t)t,sizeof(struct s_node));
       n->color = VID ;
       n->numero = i ;
+	  n->groupe = NULL;
       tab[i]=n;
     }
     return tab ;
@@ -148,6 +174,8 @@ Grille creation( int t )
   creaBordHautGraph(&g);
   creaMilieuGraph(&g);
   creaBordBasGraph(&g);
+  g->nbGroupes = 0;
+  g->groupes = NULL;
   return g ;
 }
 
@@ -189,6 +217,37 @@ int vainqueur(Grille g)
 {
   NULL;
 }
+
+/**
+ * Met à jour les groupe en fonction de l'ajout d'une node
+ */
+void _fixGroupes(Grille *g, Node *n){
+	Groupe gr[3]; //il y a max 3 groupes touchant une node
+	int nbGr = 0;
+	for(int i = 0; i<6; i++){
+		if( (*n)->cote[i]->color == (*n)->color ){
+			gr[nbGr++] = (*n)->cote[i]->groupe;
+		}
+	}
+	
+	Groupe grp = NULL;
+	switch(nbGr){
+		case 0 :
+			grp = _creaGroupe();
+			_addGroupe(&grp, *n);
+			(*n)->groupe = grp;
+			return;
+		case 1 :
+			grp = gr[0];
+			_addGroupe(&grp, *n);
+			(*n)->groupe = grp;
+			return;
+		default:
+			fprintf(stderr, "ERREUR : dans _fixGroupes nbGr>3. Fermeture.\n");
+			exit(4);
+	}
+}
+
 
 
 void ajouterPion(Grille *g, int l, int c, int pion)

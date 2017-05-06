@@ -144,15 +144,28 @@ public class Grille{
 		int[] gTab = toTab();
 		
 		String ret = new String();
+		for(int i = 0; i<t; i++){
+			ret += " W";
+		}
+		ret += '\n';
 		for(int y = 0; y<t; y++){
 			for(int i = 0; i<y; i++){
 				ret += " ";
 			}
+			ret += 'B';
 			for(int x = 0; x<t; x++){
-				ret += " " + Convention.convertToChar( gTab[y*t+x] ) + " ";
+				ret += " " + Convention.convertToChar( gTab[y*t+x] );
 			}
-			ret += "\n";
+			ret += " B";
+			ret += '\n';
 		}
+		for(int i = 0; i<t+1; i++){
+			ret += ' ';
+		}
+		for(int i = 0; i<t; i++){
+			ret += " W";
+		}
+		ret += '\n';
 		
 		return ret;
 	}

@@ -1,11 +1,11 @@
 public class Convention{
 	public static final int VID = 0;
-	public static final int RED = 1;
-	public static final int BLU = 2;
+	public static final int BLA = 1;
+	public static final int WHI = 2;
 	
 	public static final char VID_C = '.';
-	public static final char RED_C = '*';
-	public static final char BLU_C = 'o';
+	public static final char BLA_C = '*';
+	public static final char WHI_C = 'o';
 	
 	/** Donne le caractere correspondant a une couleur representee par son entier.
 	 * @return le caractere de la couleur. E si couleur inconnue.
@@ -13,8 +13,8 @@ public class Convention{
 	public static char convertToChar(int x){
 		switch(x){
 			case VID : return VID_C;
-			case RED : return RED_C;
-			case BLU : return BLU_C;
+			case BLA : return BLA_C;
+			case WHI : return WHI_C;
 			default  : return 'E';
 		}
 	}
@@ -25,8 +25,8 @@ public class Convention{
 	public static int convertToInt(char x){
 		switch(x){
 			case VID_C : return VID;
-			case RED_C : return RED;
-			case BLU_C : return BLU;
+			case BLA_C : return BLA;
+			case WHI_C : return WHI;
 			default : return -1;
 		}
 	}
