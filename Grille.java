@@ -126,7 +126,7 @@ public class Grille{
 		return grilleVainqueur(grille);
 	}
 	
-	/** WIP
+	/**
 	 *@return la grille sous forme d'un tableau d'entier correspondant aux couleurs. null si la grille n'existe pas.
 	 */
 	public int[] toTab(){
