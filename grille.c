@@ -208,7 +208,7 @@ int* grilleToTab(Grille g, int *size)
   *size = t;
   int *tab = (int*) calloc ((size_t)t , sizeof (int));
   for ( int i = 0; i<t;i++){
-    tab[i]=g->Tab[1]->color;
+    tab[i]=g->Tab[i]->color;
     //printf(" %d ",tab[i]);
   }
   return tab ;

@@ -31,7 +31,7 @@ JFLAGS = -g
 #OBJDIR = obj
 #------------------------
 CFILES = grille_jni.c grille.c
-JAVAFILES = Grille.java Tests.java
+JAVAFILES = Grille.java Tests.java Convention.java
 
 .PHONY: all clean create_dir
 

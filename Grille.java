@@ -78,7 +78,7 @@ public class Grille{
 	
 	private boolean errorNotExist(){
 		//TODO gestion des erreurs
-		System.out.println("ERREUR : action sur une grille qui n'existe pas !");
+		if(grille == 0) System.out.println("ERREUR : action sur une grille qui n'existe pas !");
 		return grille == 0;
 	}
 	
@@ -126,7 +126,8 @@ public class Grille{
 		return grilleVainqueur(grille);
 	}
 	
-	/** @return la grille sous forme d'un tableau d'entier correspondant aux couleurs. null si la grille n'existe pas.
+	/** WIP
+	 *@return la grille sous forme d'un tableau d'entier correspondant aux couleurs. null si la grille n'existe pas.
 	 */
 	public int[] toTab(){
 		if(errorNotExist()){
@@ -139,7 +140,21 @@ public class Grille{
 		if(errorNotExist()){
 			return null;
 		}
-		return grilleToString(grille);
+		int t = getSize();
+		int[] gTab = toTab();
+		
+		String ret = new String();
+		for(int y = 0; y<t; y++){
+			for(int i = 0; i<y; i++){
+				ret += " ";
+			}
+			for(int x = 0; x<t; x++){
+				ret += " " + Convention.convertToChar( gTab[y*t+x] ) + " ";
+			}
+			ret += "\n";
+		}
+		
+		return ret;
 	}
 	
 	/** Créer une grille à partir d'un tableau d'entier représantant les pions.
@@ -164,6 +179,10 @@ public class Grille{
 			return -1;
 		}
 		return grilleGetSize(grille);
+	}
+	
+	public long getPointer(){
+		return grille;
 	}
 	
 }
