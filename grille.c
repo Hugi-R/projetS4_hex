@@ -23,8 +23,10 @@ struct s_grille{
   Node bord[4];
   int size ;
   Node *Tab; //tableau des nodes
-  Groupe *groupes; //tableau des groupes
-  int nbGroupes;
+  Groupe *groupesRED; //tableau des groupes
+  int nbGroupesRED;
+  Groupe *groupesBLU;
+  int nbGroupesBLU;
  };
  
 Groupe _creaGroupe(){
@@ -40,8 +42,69 @@ void _destroyGroupe(Groupe grp){
 
 Groupe _addGroupe(Groupe *grp, Node n){
 	(*grp)->size += 1;
-	(*grp)->tab = (Node*) realloc(*grp, (size_t)(*grp)->size );
+	(*grp)->tab = (Node*) realloc((*grp)->tab, (size_t)(*grp)->size*sizeof(Node) );
 	(*grp)->tab[(*grp)->size - 1] = n;
+}
+
+/** Fusionne 2 groupes. Le groupe suplémentaire est free
+ * @return le groupe fusionné.
+ */
+Groupe _fusion2Groupes(Groupe *grp1, Groupe *grp2){
+	Groupe new = NULL;
+	Groupe old = NULL;
+	if( (*grp1)->size > (*grp2)->size ){
+		new = *grp1;
+		old = *grp2;
+	} else {
+		new = *grp2;
+		old = *grp1;
+	}
+	for( int i = 0; i<old->size; i++ ){
+		old->tab[i]->groupe = new;
+		_addGroupe(&new, old->tab[i]);
+	}
+	_destroyGroupe(old);
+	return new;
+}
+
+/** Fusionne 3 groupes. Les groupes suplémentaires sont free
+ * @return le groupe fusionné.
+ */
+Groupe _fusion3Groupes(Groupe *grp1, Groupe *grp2, Groupe *grp3){
+	Groupe new = NULL;
+	Groupe old1 = NULL;
+	Groupe old2 = NULL;
+	if( (*grp1)->size > (*grp2)->size ){
+		old1 = *grp2;
+		if( (*grp1)->size > (*grp3)->size ){
+			new = *grp1;
+			old2 = *grp3;
+		} else {
+			new = *grp3;
+			old2 = *grp1;
+		}
+	} else {
+		old1 = *grp1;
+		if( (*grp2)->size > (*grp3)->size ){
+			new = *grp2;
+			old2 = *grp3;
+		} else {
+			new = *grp3;
+			old2 = *grp2;
+		}
+	}
+	
+	for( int i = 0; i<old1->size; i++ ){
+		old1->tab[i]->groupe = new;
+		_addGroupe(&new, old1->tab[i]);
+	}
+	for( int i = 0; i<old2->size; i++ ){
+		old2->tab[i]->groupe = new;
+		_addGroupe(&new, old2->tab[i]);
+	}
+	_destroyGroupe(old1);
+	_destroyGroupe(old2);
+	return new;
 }
 
 Node* creaAllNode( int t ){
@@ -83,6 +146,10 @@ Grille creaGrille( int t){
    g->bord[2]->numero = -12;
    g->bord[3]->numero = -13;
    g->Tab = creaAllNode(t);
+   g->groupesRED = NULL;
+   g->nbGroupesRED = 0;
+   g->groupesBLU = NULL;
+   g->nbGroupesBLU = 0;
    return g ;
 }
 
@@ -174,8 +241,6 @@ Grille creation( int t )
   creaBordHautGraph(&g);
   creaMilieuGraph(&g);
   creaBordBasGraph(&g);
-  g->nbGroupes = 0;
-  g->groupes = NULL;
   return g ;
 }
 
@@ -218,15 +283,54 @@ int vainqueur(Grille g)
   NULL;
 }
 
+//----Fonctions utilisées par _fixGroupes---
+bool _notInTab(Groupe *grTab, int size, Groupe grp){
+	bool ok = true;
+	for(int i = 0; i<size && ok; i++){
+		ok = ok && (grTab[i] != grp);
+	}
+	return ok;
+}
+
+void _addToTab(Groupe *grTab[], int *size, Groupe grp){
+	*size += 1;
+	*grTab = (Groupe*) realloc(*grTab, (size_t)(*size)*sizeof(Groupe) );
+	(*grTab)[*size - 1] = grp;
+}
+
+void _removeFromTab(Groupe *grTab[], int *size, Groupe grp){
+	int i;
+	for(i = 0; (i<*size) && ((*grTab)[i] != grp); i++);
+	if(i<*size){
+		*size -= 1;
+		(*grTab)[i] = (*grTab)[*size];
+		*grTab = (Groupe*) realloc(*grTab, (size_t)(*size)*sizeof(Groupe) );
+	}
+}
+//-----------------------------------------
+
 /**
  * Met à jour les groupe en fonction de l'ajout d'une node
  */
 void _fixGroupes(Grille *g, Node *n){
-	Groupe gr[3]; //il y a max 3 groupes touchant une node
+	Groupe *grTab = NULL;
+	int *nbGroupes = NULL;
+	if( (*n)->color == RED ){
+		grTab = (*g)->groupesRED;
+		nbGroupes = &((*g)->nbGroupesRED);
+	} else if( (*n)->color == BLU ){
+		grTab = (*g)->groupesBLU;
+		nbGroupes = &((*g)->nbGroupesBLU);
+	} else {
+		return;
+	}
+	
+	Groupe gr[3]; //il y a max 3 groupes differents touchant une node
 	int nbGr = 0;
 	for(int i = 0; i<6; i++){
 		if( (*n)->cote[i]->color == (*n)->color ){
-			gr[nbGr++] = (*n)->cote[i]->groupe;
+			if( ((*n)->cote[i]->groupe != NULL) && (_notInTab(gr, nbGr, (*n)->cote[i]->groupe)) )
+				gr[nbGr++] = (*n)->cote[i]->groupe;
 		}
 	}
 	
@@ -236,11 +340,38 @@ void _fixGroupes(Grille *g, Node *n){
 			grp = _creaGroupe();
 			_addGroupe(&grp, *n);
 			(*n)->groupe = grp;
+			_addToTab( &grTab, nbGroupes, grp );
 			return;
 		case 1 :
 			grp = gr[0];
 			_addGroupe(&grp, *n);
 			(*n)->groupe = grp;
+			return;
+		case 2 :
+			grp = _fusion2Groupes(&gr[0], &gr[1]);
+			_addGroupe(&grp, *n);
+			(*n)->groupe = grp;
+			if(grp != gr[0]){
+				_removeFromTab(&grTab, nbGroupes, gr[0]);
+			} else {
+				_removeFromTab(&grTab, nbGroupes, gr[1]);
+			}
+			return;
+		case 3 :
+			grp = _fusion3Groupes(&gr[0], &gr[1], &gr[2]);
+			_addGroupe(&grp, *n);
+			(*n)->groupe = grp;
+			if(grp == gr[0]){
+				_removeFromTab(&grTab, nbGroupes, gr[1]);
+				_removeFromTab(&grTab, nbGroupes, gr[2]);
+			} else {
+				_removeFromTab(&grTab, nbGroupes, gr[0]);
+				if(grp == gr[1]){
+					_removeFromTab(&grTab, nbGroupes, gr[2]);
+				} else {
+					_removeFromTab(&grTab, nbGroupes, gr[1]);
+				}
+			}
 			return;
 		default:
 			fprintf(stderr, "ERREUR : dans _fixGroupes nbGr>3. Fermeture.\n");
@@ -248,13 +379,13 @@ void _fixGroupes(Grille *g, Node *n){
 	}
 }
 
-
-
 void ajouterPion(Grille *g, int l, int c, int pion)
 {
     assert(coupValide(*g,l,c));
-    (*g)->Tab[l*(*g)->size+c]->color = pion ;
-     
+	Node n = (*g)->Tab[l*(*g)->size+c];
+    n->color = pion;
+	if(n->color != VID)
+		_fixGroupes(g, &n);
 }
 
 int getSizeGrille(Grille g){
@@ -289,7 +420,8 @@ Grille grilleFromTab(int* tab, int t)
   Grille g = creation(t);
   for ( int i = 0; i<t;i++){
     for (int j = 0 ;j<t;j++){
-      ajouterPion(&g,i,j,tab[i*t+j]);
+		if(tab[i*t+j] != VID)
+			ajouterPion(&g,i,j,tab[i*t+j]);
     }
   }
   return g ;

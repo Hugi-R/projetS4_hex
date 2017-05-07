@@ -53,8 +53,10 @@ int vainqueur ( Grille g) ;
  * @return la taille de la grille
  */
 int getSizeGrille(Grille g);
+
 /**
  * @param g la grille pour accéder 
+ * @param size est la hauteur (et aussi largeur) de la GRILLE, pas du tableau ! La taille du tableau est size*size.
  * @return la grille sous forme d'un tableau
  */
 int* grilleToTab(Grille g, int *size);
