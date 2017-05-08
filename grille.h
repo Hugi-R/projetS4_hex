@@ -57,13 +57,13 @@ int getSizeGrille(Grille g);
 /**
  * @param g la grille pour accéder 
  * @param size est la hauteur (et aussi largeur) de la GRILLE, pas du tableau ! La taille du tableau est size*size.
- * @return la grille sous forme d'un tableau
+ * @return la grille sous forme d'un tableau qui devra est libéré avec free
  */
 int* grilleToTab(Grille g, int *size);
 
 /**
  * @param g la grille pour accéder 
- * @return la grille sous forme d'un string
+ * @return la grille sous forme d'un string qui devra être libéré avec free
  */
 char* grilleToString (Grille g );
 

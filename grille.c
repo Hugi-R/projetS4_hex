@@ -12,7 +12,7 @@ typedef struct s_groupe{
 } *Groupe;
  
 struct s_node{
-   Node *cote; // tableau de 6 node 
+   Node *cote; // tableau de 6 node, plus pour les bords
    int numero ;
    int color;
    Groupe groupe; // le groupe de la node
@@ -139,7 +139,7 @@ Grille creaGrille( int t){
    } 
    g->bord[0]->color = BRED1 ;
    g->bord[1]->color = BBLU1 ;
-   g->bord[2]->color = BBLU2 ;
+   g->bord[2]->color = BRED2 ;
    g->bord[3]->color = BBLU2 ;
    g->bord[0]->numero = -10;
    g->bord[1]->numero = -11;
@@ -278,16 +278,19 @@ bool coupValide(Grille g, int l, int c)
   return g->Tab[l*(g->size)+c]->color == VID;
 }
 
-int vainqueur(Grille g)
-{
-  NULL;
-}
-
 //----Fonctions utilisées par _fixGroupes---
-bool _notInTab(Groupe *grTab, int size, Groupe grp){
+bool _grpNotInTab(Groupe *grTab, int size, Groupe grp){
 	bool ok = true;
 	for(int i = 0; i<size && ok; i++){
 		ok = ok && (grTab[i] != grp);
+	}
+	return ok;
+}
+
+bool _nodeNotInTab(Node *nTab, int size, Node n){
+	bool ok = true;
+	for(int i = 0; i<size && ok; i++){
+		ok = ok && (nTab[i] != n);
 	}
 	return ok;
 }
@@ -306,6 +309,23 @@ void _removeFromTab(Groupe *grTab[], int *size, Groupe grp){
 		(*grTab)[i] = (*grTab)[*size];
 		*grTab = (Groupe*) realloc(*grTab, (size_t)(*size)*sizeof(Groupe) );
 	}
+}
+
+Node _bordNode(Node n){
+	assert(n->color != VID);
+	int b1,b2;
+	if(n->color == BLU){
+		b1 = BBLU1;
+		b2 = BBLU2;
+	} else {
+		b1 = BRED1;
+		b2 = BRED2;
+	}
+	for(int i = 0; i<6; i++){
+		if(n->cote[i]->color == b1 || n->cote[i]->color == b2)
+			return n->cote[i];
+	}
+	return NULL;
 }
 //-----------------------------------------
 
@@ -329,7 +349,7 @@ void _fixGroupes(Grille *g, Node *n){
 	int nbGr = 0;
 	for(int i = 0; i<6; i++){
 		if( (*n)->cote[i]->color == (*n)->color ){
-			if( ((*n)->cote[i]->groupe != NULL) && (_notInTab(gr, nbGr, (*n)->cote[i]->groupe)) )
+			if( ((*n)->cote[i]->groupe != NULL) && (_grpNotInTab(gr, nbGr, (*n)->cote[i]->groupe)) )
 				gr[nbGr++] = (*n)->cote[i]->groupe;
 		}
 	}
@@ -341,12 +361,12 @@ void _fixGroupes(Grille *g, Node *n){
 			_addGroupe(&grp, *n);
 			(*n)->groupe = grp;
 			_addToTab( &grTab, nbGroupes, grp );
-			return;
+			break;
 		case 1 :
 			grp = gr[0];
 			_addGroupe(&grp, *n);
 			(*n)->groupe = grp;
-			return;
+			break;
 		case 2 :
 			grp = _fusion2Groupes(&gr[0], &gr[1]);
 			_addGroupe(&grp, *n);
@@ -356,7 +376,7 @@ void _fixGroupes(Grille *g, Node *n){
 			} else {
 				_removeFromTab(&grTab, nbGroupes, gr[1]);
 			}
-			return;
+			break;
 		case 3 :
 			grp = _fusion3Groupes(&gr[0], &gr[1], &gr[2]);
 			_addGroupe(&grp, *n);
@@ -372,11 +392,42 @@ void _fixGroupes(Grille *g, Node *n){
 					_removeFromTab(&grTab, nbGroupes, gr[1]);
 				}
 			}
-			return;
+			break;
 		default:
 			fprintf(stderr, "ERREUR : dans _fixGroupes nbGr>3. Fermeture.\n");
 			exit(4);
 	}
+	
+	Node b = _bordNode(*n);
+	if(b != NULL){
+		if( _nodeNotInTab((*n)->groupe->tab, (*n)->groupe->size, b) ){
+			_addGroupe( &((*n)->groupe), b );
+		}
+	}
+}
+
+int vainqueur(Grille g)
+{
+	bool b1,b2;
+	for(int i = 0; i < g->nbGroupesBLU; i++){
+		b1 = false;
+		b2 = false;
+		for(int j = 0; j < g->groupesBLU[i]->size; j++){
+			if( g->groupesBLU[i]->tab[j]->color == BBLU1 ) b1 = true;
+			if( g->groupesBLU[i]->tab[j]->color == BBLU2 ) b2 = true;
+		}
+		if(b1 && b2) return BLU;
+	}
+	for(int i = 0; i < g->nbGroupesRED; i++){
+		b1 = false;
+		b2 = false;
+		for(int j = 0; j < g->groupesRED[i]->size; j++){
+			if( g->groupesRED[i]->tab[j]->color == BRED1 ) b1 = true;
+			if( g->groupesRED[i]->tab[j]->color == BRED2 ) b2 = true;
+		}
+		if(b1 && b2) return RED;
+	}
+	return VID;
 }
 
 void ajouterPion(Grille *g, int l, int c, int pion)
