@@ -55,11 +55,10 @@ int vainqueur ( Grille g) ;
 int getSizeGrille(Grille g);
 
 /**
- * @param g la grille pour accéder 
- * @param size est la hauteur (et aussi largeur) de la GRILLE, pas du tableau ! La taille du tableau est size*size.
+ * @param g la grille pour accéder .
  * @return la grille sous forme d'un tableau qui devra est libéré avec free
  */
-int* grilleToTab(Grille g, int *size);
+int* grilleToTab(Grille g);
 
 /**
  * @param g la grille pour accéder 
@@ -85,6 +84,7 @@ void voisin ( Grille g, int node, int Tab[] );
 void affichage (Grille g) ;
 
 void verif (Grille g);
+
 void deplacement ( Grille g);
 
 

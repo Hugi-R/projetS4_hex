@@ -1,8 +1,8 @@
-#include "grille.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
+#include "grille.h"
 
 typedef struct s_node *Node;
  
@@ -16,7 +16,7 @@ struct s_node{
    int numero ;
    int color;
    Groupe groupe; // le groupe de la node
-  };
+};
   
   
 struct s_grille{
@@ -27,7 +27,7 @@ struct s_grille{
   int nbGroupesRED;
   Groupe *groupesBLU;
   int nbGroupesBLU;
- };
+};
  
 Groupe _creaGroupe(){
 	Groupe g = (Groupe) malloc( sizeof(struct s_groupe) );
@@ -204,10 +204,10 @@ void creaMilieuGraph (Grille *g){
       }
     }
   }
-  
 }
+
 void creaBordBasGraph (Grille *g){
-   int t = (*g)->size ;
+  int t = (*g)->size ;
   Node n ;
   int cpt = (t*(t-1));
   for ( int i = 0; i < t ; i++){
@@ -231,7 +231,7 @@ void creaBordBasGraph (Grille *g){
       n->cote[0] = (*g)->Tab[cpt-t] ;
       (*g)->bord[2]->cote[t-(1+i)] = n;
       cpt ++ ;
-      }
+   }
 }
   
 
@@ -257,7 +257,6 @@ void verif(Grille g){
 void destructionNode ( Node n ) {
   free(n->cote);
   free(n);
-  
 }
 
 void destruction(Grille g)
@@ -273,6 +272,7 @@ void destruction(Grille g)
     }
     free(g->bord);
 }
+
 bool coupValide(Grille g, int l, int c)
 {
   return g->Tab[l*(g->size)+c]->color == VID;
@@ -433,24 +433,22 @@ int vainqueur(Grille g)
 void ajouterPion(Grille *g, int l, int c, int pion)
 {
     assert(coupValide(*g,l,c));
-	Node n = (*g)->Tab[l*(*g)->size+c];
+    Node n = (*g)->Tab[l*(*g)->size+c];
     n->color = pion;
-	if(n->color != VID)
-		_fixGroupes(g, &n);
+    if(n->color != VID)
+	_fixGroupes(g, &n);
 }
 
 int getSizeGrille(Grille g){
   return g->size;
 }
 
-int* grilleToTab(Grille g, int *size) 
+int* grilleToTab(Grille g) 
 {
   int t = g->size*g->size;
-  *size = t;
   int *tab = (int*) calloc ((size_t)t , sizeof (int));
   for ( int i = 0; i<t;i++){
     tab[i]=g->Tab[i]->color;
-    //printf(" %d ",tab[i]);
   }
   return tab ;
 }
