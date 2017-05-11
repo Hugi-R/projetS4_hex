@@ -16,6 +16,7 @@ void test ( char* message , bool resultat){
 
 int main (){
   int taille = 5 ;
+  char * msg ;
   printf("génération des tests : \n");
   Grille g = creation(taille); 
   test("creation d'une grille",verif(g));
@@ -34,11 +35,13 @@ int main (){
       ajouterPion(&g,2,1,RED);
     if (coupValide(g,2,2))
       ajouterPion(&g,2,2,RED);
-  test("test de 4 ajouts avec grilleToString ",strcmp("110000011",grilleToString(g))==0);
+  test("test de 4 ajouts avec grilleToString ",strcmp("110000011",msg = grilleToString(g))==0);
+  free(msg);
   test("test vainqueur sans vainqueur",vainqueur(g) == 0);
   if (coupValide(g,1,1))
       ajouterPion(&g,1,1,RED);
   test("test vainqueur avec un vainqueur",vainqueur(g) == RED);
+  destruction(g);
   printf("resultat des tests : %d/%d test(s) valide \n",nbTestvalide,nbTestTotal);
   return 0 ;
 }
