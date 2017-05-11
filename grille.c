@@ -33,6 +33,7 @@ Groupe _creaGroupe(){
 	Groupe g = (Groupe) malloc( sizeof(struct s_groupe) );
 	g->tab = NULL;
 	g->size = 0;
+	return g ;
 }
 
 void _destroyGroupe(Groupe grp){
@@ -40,7 +41,7 @@ void _destroyGroupe(Groupe grp){
 	free(grp);
 }
 
-Groupe _addGroupe(Groupe *grp, Node n){
+void _addGroupe(Groupe *grp, Node n){
 	(*grp)->size += 1;
 	(*grp)->tab = (Node*) realloc((*grp)->tab, (size_t)(*grp)->size*sizeof(Node) );
 	(*grp)->tab[(*grp)->size - 1] = n;
@@ -244,17 +245,7 @@ Grille creation( int t )
   return g ;
 }
 
-void verif(Grille g){
-  for (int i = 0 ; i < g->size *g->size; i++){
-    printf("\ncote de %d ",i); 
-      for (int j = 0 ; j< 6 ; j++){
-	printf(": %d ",g->Tab[i]->cote[j]->numero);
-      }
-  }
-  printf("\n");
-}
-
-void destructionNode ( Node n ) {
+static void destructionNode ( Node n ) {
   free(n->cote);
   free(n);
 }
@@ -275,6 +266,8 @@ void destruction(Grille g)
 
 bool coupValide(Grille g, int l, int c)
 {
+  if ( l > g->size || c > g->size)
+    return false ;
   return g->Tab[l*(g->size)+c]->color == VID;
 }
 
@@ -458,7 +451,7 @@ char* grilleToString(Grille g)
    int t = g->size*g->size;
    char *tab = (char*) malloc ( sizeof (char)*t+1);
    for ( int i = 0; i<t;i++){
-     tab[i] = (char)(g->Tab[1]->color)+48;
+     tab[i] = (char)(g->Tab[i]->color)+48;
    }
    tab[t] = '\0';
   return tab ;
@@ -483,3 +476,41 @@ void voisin(Grille g, int node , int Tab[])
   }
 }
 
+bool verif(Grille g){
+  bool estValide = true;
+  for (int i = 0 ; i < g->size *g->size && estValide; i++){
+      for (int j = 0 ; j< 6 ; j++){
+	if (g->Tab[i]->cote[j] == NULL )
+	  estValide = false ;
+      }
+  }
+  for ( int i = 0 ; i < 4 && estValide ; i++){
+    for ( int j = 0 ; j < g->size && estValide ; j++ ){
+      if (g->bord[i]->cote[j] == NULL )
+	  estValide = false ;
+      else {
+	switch (i){
+	  case 0 : 
+	    if (g->bord[i]->cote[j]->numero != j )
+	      estValide = false;
+	    break;
+	  case 1 : 
+	      if (g->bord[i]->cote[j]->numero !=j*g->size + g->size-1)
+		estValide = false ;
+	    break;
+	  case 2 :
+	    if (g->bord[i]->cote[j]->numero != g->size*g->size - (j+1))
+	      estValide = false ;
+	    break ;
+	  default :
+	    if (g->bord[i]->cote[j]->numero != (g->size-(j+1)) * g->size)
+	      estValide = false;
+	    break;
+	}
+      }
+    }
+  }
+  
+  printf("\n");
+  return estValide ;
+}

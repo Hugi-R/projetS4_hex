@@ -83,7 +83,7 @@ void voisin ( Grille g, int node, int Tab[] );
 
 void affichage (Grille g) ;
 
-void verif (Grille g);
+bool verif (Grille g);
 
 void deplacement ( Grille g);
 
