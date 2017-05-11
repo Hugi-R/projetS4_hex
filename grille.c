@@ -288,19 +288,19 @@ bool _nodeNotInTab(Node *nTab, int size, Node n){
 	return ok;
 }
 
-void _addToTab(Groupe *grTab[], int *size, Groupe grp){
+void _addToTab(Groupe **grTab, int *size, Groupe grp){
 	*size += 1;
-	*grTab = (Groupe*) realloc(*grTab, (size_t)(*size)*sizeof(Groupe) );
+	(*grTab) = (Groupe*) realloc((*grTab), (size_t)(*size)*sizeof(Groupe) );
 	(*grTab)[*size - 1] = grp;
 }
 
-void _removeFromTab(Groupe *grTab[], int *size, Groupe grp){
+void _removeFromTab(Groupe **grTab, int *size, Groupe grp){
 	int i;
 	for(i = 0; (i<*size) && ((*grTab)[i] != grp); i++);
 	if(i<*size){
 		*size -= 1;
 		(*grTab)[i] = (*grTab)[*size];
-		*grTab = (Groupe*) realloc(*grTab, (size_t)(*size)*sizeof(Groupe) );
+		(*grTab) = (Groupe*) realloc((*grTab), (size_t)(*size)*sizeof(Groupe) );
 	}
 }
 
@@ -326,13 +326,13 @@ Node _bordNode(Node n){
  * Met à jour les groupe en fonction de l'ajout d'une node
  */
 void _fixGroupes(Grille *g, Node *n){
-	Groupe *grTab = NULL;
+	Groupe **grTab = NULL;
 	int *nbGroupes = NULL;
 	if( (*n)->color == RED ){
-		grTab = (*g)->groupesRED;
+		grTab = &((*g)->groupesRED);
 		nbGroupes = &((*g)->nbGroupesRED);
 	} else if( (*n)->color == BLU ){
-		grTab = (*g)->groupesBLU;
+		grTab = &((*g)->groupesBLU);
 		nbGroupes = &((*g)->nbGroupesBLU);
 	} else {
 		return;
@@ -353,7 +353,7 @@ void _fixGroupes(Grille *g, Node *n){
 			grp = _creaGroupe();
 			_addGroupe(&grp, *n);
 			(*n)->groupe = grp;
-			_addToTab( &grTab, nbGroupes, grp );
+			_addToTab( grTab, nbGroupes, grp );
 			break;
 		case 1 :
 			grp = gr[0];
@@ -365,9 +365,9 @@ void _fixGroupes(Grille *g, Node *n){
 			_addGroupe(&grp, *n);
 			(*n)->groupe = grp;
 			if(grp != gr[0]){
-				_removeFromTab(&grTab, nbGroupes, gr[0]);
+				_removeFromTab(grTab, nbGroupes, gr[0]);
 			} else {
-				_removeFromTab(&grTab, nbGroupes, gr[1]);
+				_removeFromTab(grTab, nbGroupes, gr[1]);
 			}
 			break;
 		case 3 :
@@ -375,14 +375,14 @@ void _fixGroupes(Grille *g, Node *n){
 			_addGroupe(&grp, *n);
 			(*n)->groupe = grp;
 			if(grp == gr[0]){
-				_removeFromTab(&grTab, nbGroupes, gr[1]);
-				_removeFromTab(&grTab, nbGroupes, gr[2]);
+				_removeFromTab(grTab, nbGroupes, gr[1]);
+				_removeFromTab(grTab, nbGroupes, gr[2]);
 			} else {
-				_removeFromTab(&grTab, nbGroupes, gr[0]);
+				_removeFromTab(grTab, nbGroupes, gr[0]);
 				if(grp == gr[1]){
-					_removeFromTab(&grTab, nbGroupes, gr[2]);
+					_removeFromTab(grTab, nbGroupes, gr[2]);
 				} else {
-					_removeFromTab(&grTab, nbGroupes, gr[1]);
+					_removeFromTab(grTab, nbGroupes, gr[1]);
 				}
 			}
 			break;
