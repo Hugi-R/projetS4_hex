@@ -53,8 +53,9 @@ JNIEXPORT jint JNICALL Java_Grille_grilleVainqueur
 JNIEXPORT jintArray JNICALL Java_Grille_grilleToTab
   (JNIEnv *env, jobject o, jlong g)
   {
-	  int size;
-	  int *gTab = grilleToTab( (Grille)g , &size);
+	  int size = getSizeGrille( (Grille)g );
+	  size = size*size;
+	  int *gTab = grilleToTab( (Grille)g );
 	  
 	  jintArray jTab = (*env)->NewIntArray(env, (jsize)size );
 	  if(jTab == NULL) return NULL;
