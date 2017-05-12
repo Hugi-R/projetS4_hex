@@ -2,11 +2,11 @@
 
 #----Windows ou Linux----
 ifeq ($(OS),Windows_NT)
-	LIBCMD = -shared -o hex.dll $(OBJDIR)/hex.o hex.def
+	LIBCMD = -shared -fPIC -std=c99 $(JINCLUDE) -o grille_jni.dll grille_jni.def $(CFILES)
 	RM = del /Q
 	OSDIR = win32
 else
-	LIBCMD = -shared -o libhex.so $(OBJDIR)/hex.o
+	LIBCMD = -shared -fPIC -std=c99 $(JINCLUDE) -o libgrille_jni.so $(CFILES)
 	RM = rm -f
 	OSDIR = linux
 endif
@@ -15,8 +15,9 @@ endif
 #--Variables modifiables-
 # A MODIFIER SELON VOTRE INSTALLATION
 CC = gcc
-JDKPATH = C:/Program\ Files/Java/jdk1.8.0_111/
-#une façon simple pour avoir une idée du chemin d'installation sous linux : readlink -f $(which java)
+JDKPATH = /usr/lib/jvm/java-7-openjdk-amd64/
+
+#une façon simple pour avoir une idée du chemin d'installation sous linux : readlink -f $(which javac)
 #ne pas oublier d'ignorer les espaces avec un \
 
 JC = $(JDKPATH)bin/javac
@@ -27,10 +28,10 @@ LDFLAGS =
 
 JFLAGS = -g
 
-OBJDIR = obj
+#OBJDIR = obj
 #------------------------
-
-JAVAFILES = Hex.java
+CFILES = grille_jni.c grille.c
+JAVAFILES = Grille.java Tests.java Convention.java
 
 .PHONY: all clean create_dir
 
@@ -40,8 +41,9 @@ all: libHex classes
 #	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $^ $(LDFLAGS)
 
 
-$(OBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -o $@ -c $< $(LDFLAGS)
+#$(OBJDIR)/%.o: %.c
+#	$(CC) $(CFLAGS) -o $@ -c $< $(LDFLAGS)
+	
 	
 #Java
 classes:
@@ -50,13 +52,12 @@ classes:
 
 #compile la bibliothèque utilisée par la partie java
 libHex:
-	$(CC) -fPIC $(JINCLUDE) -o $(OBJDIR)/hex.o -c hex.c
 	$(CC) $(LIBCMD)
 	
 
-create_dir:
-	mkdir obj
+#create_dir:
+#	mkdir obj
 
 clean:
-	$(RM) $(OBJDIR)/*.o
+#	$(RM) $(OBJDIR)/*.o
 	$(RM) *.class
