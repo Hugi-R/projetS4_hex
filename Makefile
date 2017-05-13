@@ -2,11 +2,11 @@
 
 #----Windows ou Linux----
 ifeq ($(OS),Windows_NT)
-	LIBCMD = -shared -fPIC -std=c99 $(JINCLUDE) -o grille_jni.dll grille_jni.def $(CFILES)
+	LIBCMD = -shared -fPIC -std=c99 $(JINCLUDE) -o hex_jni.dll hex_jni.def $(CFILES)
 	RM = del /Q
 	OSDIR = win32
 else
-	LIBCMD = -shared -fPIC -std=c99 $(JINCLUDE) -o libgrille_jni.so $(CFILES)
+	LIBCMD = -shared -fPIC -std=c99 $(JINCLUDE) -o libhex_jni.so $(CFILES)
 	RM = rm -f
 	OSDIR = linux
 endif
@@ -30,8 +30,8 @@ JFLAGS = -g
 
 #OBJDIR = obj
 #------------------------
-CFILES = grille_jni.c grille.c
-JAVAFILES = Grille.java Tests.java Convention.java
+CFILES = hex_jni.c grille.c sauvegarde.c
+JAVAFILES = java_hex/Convention.java java_hex/partie/Grille.java java_hex/partie/Historique.java java_hex/partie/Partie.java java_hex/Tests.java
 
 .PHONY: all clean create_dir
 

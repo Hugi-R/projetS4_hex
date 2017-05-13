@@ -8,3 +8,5 @@ Java_Grille_grilleVainqueur
 Java_Grille_grilleToTab
 Java_Grille_grilleToString
 Java_Grille_grilleFromTab
+Java_Partie_sauvegarderPartie
+Java_Partie_chargerPartie

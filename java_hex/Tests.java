@@ -1,4 +1,8 @@
+package java_hex;
+import java_hex.partie.*;
+
 public class Tests{
+	
 	static public void main(String[] args){
 		Tests t = new Tests();
 		t.test_grille_tab();

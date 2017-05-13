@@ -113,7 +113,7 @@ int sauvegarderPartie(Grille g, const char *nomPartie, const char *historique){
 int chargerPartie(const char *nomPartie, int numeroSauvegarde, Grille *g, char *historique){
 	
 	int dim = 0; //lecture fichier
-	char *grille = "";//lecture fichier
+	int *grille;//lecture fichier
 	*g = grilleFromTab ( grille , dim );
 	return 0;
 }

@@ -1,12 +1,19 @@
-public class Grille{
+package java_hex.partie;
+import java_hex.Convention;
+
+public class Grille{	
 	private long grille;
 	
 	static {
-		System.loadLibrary("grille_jni");
+		System.loadLibrary("hex_jni");
 	}
 	
 	public Grille(){
 		grille = 0;
+	}
+	
+	public Grille(long g){
+		grille = g;
 	}
 	
 	/**
