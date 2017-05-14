@@ -1,3 +1,5 @@
+package java_hex;
+
 public class Convention{
 	public static final int VID = 0;
 	public static final int BLA = 1;
