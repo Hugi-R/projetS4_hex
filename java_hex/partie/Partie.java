@@ -4,6 +4,7 @@ public class Partie{
 	private Grille g;
 	private String nom;
 	private Historique h;
+	private Joueur j1, j2;
 	
 	static {
 		System.loadLibrary("hex_jni");
@@ -13,6 +14,8 @@ public class Partie{
 		g = new Grille();
 		this.nom = nom;
 		h = new Historique();
+		j1 = new Joueur(1);
+		j2 = new Joueur(2);
 	}
 	
 	/**
@@ -53,7 +56,23 @@ public class Partie{
 		}
 	}
 	
+	public void nouvelleGrille(int t){
+		g = new Grille();
+		g.create(t);
+	}
+	
 	public Grille getGrille(){
 		return g;
+	}
+	
+	public void jouer(){
+		while(g.vainqueur() == 0){
+			System.out.println(g.toString());
+			System.out.println("Joueur 1 à vous !");
+			j1.action(this);
+			System.out.println(g.toString());
+			System.out.println("Joueur 2 à vous !");
+			j2.action(this);
+		}
 	}
 }
