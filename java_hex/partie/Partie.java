@@ -9,6 +9,12 @@ public class Partie{
 		System.loadLibrary("hex_jni");
 	}
 	
+	public Partie(String nom){
+		g = new Grille();
+		this.nom = nom;
+		h = new Historique();
+	}
+	
 	/**
 	 * @brief sauvegarde la partie
 	 * @param [input] g pointeur vers la grille
@@ -34,13 +40,12 @@ public class Partie{
 		return sauvegarderPartie(g.getPointer(), nom, h.toString());
 	}
 	
-	public int charger(String nomPartie, int numeroSauvegarde){
+	public int charger(int numeroSauvegarde){
 		String historique = new String();
-		long ptr = chargerPartie(nomPartie, numeroSauvegarde, historique);
+		long ptr = chargerPartie(nom, numeroSauvegarde, historique);
 		if(ptr != 0){
 			g = new Grille(ptr);
-			nom = nomPartie;
-			h = new Historique(); //TODO constructeur a partir d'un String 
+			h = new Historique(historique);
 			return 0;
 		} else {
 			//erreurs

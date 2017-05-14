@@ -83,8 +83,8 @@ char* formaterHistorique(const char *historique){ //TODO
 
 int sauvegarderPartie(Grille g, const char *nomPartie, const char *historique){
 	int error = 0;
-	if (!verifHistorique(g, historique))
-		return --error;
+	//if (!verifHistorique(g, historique))
+	//	return --error;
 	mkdir(nomPartie, S_IRWXU);
 	DIR *dir = opendir (nomPartie);
 	if (dir == NULL)
