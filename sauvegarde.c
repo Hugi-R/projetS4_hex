@@ -1,18 +1,16 @@
 //gcc -std=c99 sauvegarde.c grille.c -o test
 
+#include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/dir.h>
-#include <dirent.h>
-#include <fcntl.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdbool.h>
-#include <assert.h>
 
 #include "grille.h"
 #include "sauvegarde.h"
+
+#define TAILLE_COUP_HISTORIQUE 5
 
 int verifHistorique(Grille g, const char *historique){
 	char pion, x, y;
@@ -38,7 +36,7 @@ int verifHistorique(Grille g, const char *historique){
 			x = historique[cur]-'0';
 			cur+=2;
 			y = historique[cur]-'0';
-			cur+=2;
+			cur++;
 			tab[x][y]=couleur;
 		}
 	}
@@ -51,13 +49,15 @@ int verifHistorique(Grille g, const char *historique){
 				return 0;
 		}
 	}
+	free(tabGrid);
 	return 1;
 }
 
+//penser a free le char* qui est retourné
 char* formaterGrille(Grille g){
-	int sizeGrid = getSizeGrille(g);
-	int *tabGrid = malloc (sizeof (int)*sizeGrid*sizeGrid);
-	tabGrid = grilleToTab(g);
+	int sizeGrid;
+	int *tabGrid = grilleToTab(g);
+	sizeGrid=getSizeGrille(g);
 	char *grilleFormatee = malloc (sizeGrid*(sizeGrid+1)+1);
 	int curseur = 0;
 	for (int i = 0; i<sizeGrid*sizeGrid; i++){
@@ -72,19 +72,34 @@ char* formaterGrille(Grille g){
 		}
 		curseur ++;
 	}
+	free(tabGrid);
 	return grilleFormatee;
 }
 
-char* formaterHistorique(const char *historique){ //TODO
-	char *h=malloc(256);
-	strcat(h, historique);
+//penser a free le char* qui est retourné
+char* formaterHistorique(const char *historique){
+	int l = (int)strlen(historique);
+	char *h=malloc(l/TAILLE_COUP_HISTORIQUE*12+1);
+	int curseur=0;
+	for (int i=0; i<l; i++){
+		if (i%5 == 0){
+			if (i != 0){
+				h[curseur]='\n';
+				curseur++;
+			}
+			strcat(h, "\\play ");
+			curseur += 6;
+		}
+		h[curseur] = historique[i];
+		curseur++;
+	}
 	return h;
 }
 
 int sauvegarderPartie(Grille g, const char *nomPartie, const char *historique){
 	int error = 0;
-	//if (!verifHistorique(g, historique))
-	//	return --error;
+	if (!verifHistorique(g, historique))
+		return --error;
 	mkdir(nomPartie, S_IRWXU);
 	DIR *dir = opendir (nomPartie);
 	if (dir == NULL)
@@ -99,9 +114,11 @@ int sauvegarderPartie(Grille g, const char *nomPartie, const char *historique){
 	char *grilleFormatee = formaterGrille(g);
 	fprintf(saveFile, "\\hex\n\\dim %d\n", getSizeGrille(g));
 	fprintf(saveFile, "\\board\n%s\n\\endboard\n", grilleFormatee);
+	free(grilleFormatee);
 	if (strcmp(historique, "")){
 		char *historiqueFormate = formaterHistorique(historique);
 		fprintf(saveFile, "\\game\n%s\n\\endgame\n", historiqueFormate);
+		free(historiqueFormate);
 	}
 	fprintf(saveFile, "\\endhex\n");
 	
@@ -110,28 +127,76 @@ int sauvegarderPartie(Grille g, const char *nomPartie, const char *historique){
 	return 0;
 }
 
-int chargerPartie(const char *nomPartie, int numeroSauvegarde, Grille *g, char *historique){
-	
-	int dim = 0; //lecture fichier
-	int *grille;//lecture fichier
+int chargerPartie(const char *nomPartie, Grille *g, char *historique){
+	int error = 0;
+	char saveName[256];
+	sprintf(saveName, "%s/save.txt", nomPartie);
+	FILE* save = fopen(saveName, "rt");
+	if (save == NULL)
+		return --error;
+	int dim;
+	fscanf(save, "\\hex\n\\dim %d\n", &dim);
+	//init grille
+	const int d = dim;
+	int *grille = malloc (sizeof (int)*d*d);
+	fscanf(save, "\\board\n");
+	char temp[d];
+	int pion;
+	char c;
+	for (int i=0; i < dim; i++){
+		fscanf(save, "%s\n", temp);
+		for (int j=0; j<d; j++){
+			c = temp[j];
+			switch (c){
+				case 'o': pion = BLU;
+				case '*': pion = RED;
+				default : pion = VID;
+			}
+			grille[i*d+j]=pion;
+		}
+	}
+	fscanf(save, "\n\\endboard\n");
 	*g = grilleFromTab ( grille , dim );
+	// end init grille
+	char x, h;
+	char coup[6];
+	fscanf(save, "%c%c", &x, &h);
+	int r;
+	if (h == 'g'){ // init historique
+		fscanf(save, "ame\n");
+		while ( r=fscanf(save, "\\play %s\n", coup) != -1){
+			strcat(historique, coup);
+		}
+	} else if (h !='e')
+		return --error;
 	return 0;
 }
 
-int main(){
-	char *historique = "* 1 1 o 3 3";
+void testSave(void){
+	char *historique = "* 1 1o 3 3* 2 2o 0 0";
 	Grille g = creation(4);
 	ajouterPion( &g ,1 , 1 , RED );
 	ajouterPion( &g ,3 , 3 , BLU );
-	
+	ajouterPion( &g ,2 , 2 , RED );
+	ajouterPion( &g ,0 , 0 , BLU );
 	sauvegarderPartie(g, "Partie1", historique);
-	
-	//destruction(g);
+	destruction(g);
+}
+
+void testLoad(void){
+	Grille g;
+	char *historique;
+	chargerPartie("Partie1", &g, historique);
+	printf("historique:\n%s\n", historique);
+}
+
+int main(){
+	printf("\033[31mtestSave\033[00m\n");
+	testSave();
+	//printf("\033[31mtestLoad\033[00m\n");
+	//testLoad();
 	return 0;
 }
 /* TODO
- * 	sauvegarderPartie
- * 		incrementation nom fichier, gestion index
- * 		formaterHistorique				quand format defini
  * 	chargerPartie
  */
