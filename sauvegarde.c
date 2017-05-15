@@ -18,14 +18,14 @@ int _verifHistorique(Grille g, const char *historique){
 	int tab[size][size];
 	for (int i=0; i<size; i++){
 		for (int j=0; j<size; j++){
-			tab[i][j]='.';
+			tab[i][j]=0;
 		}
 	}
 	int cur=0;
 	int couleur;
 	int longueur = (int)strlen(historique);
 	if ( longueur != 0){
-		while(cur < longueur){
+		while (cur < longueur){
 			pion = historique[cur];
 			switch (pion){
 				case 'o': couleur = BLU;break;
@@ -42,15 +42,15 @@ int _verifHistorique(Grille g, const char *historique){
 	}
 	int *tabGrid;
 	tabGrid = grilleToTab(g);
-	
+	int retour=1;
 	for (int i=0; i<size; i++){
 		for (int j=0; j<size; j++){
-			if (tab[x][y]!=tabGrid[x*size+y])
-				return 0;
+			if (tab[i][j]!=tabGrid[i*size+j])
+				retour=0;
 		}
 	}
 	free(tabGrid);
-	return 1;
+	return retour;
 }
 
 //penser a free le char* qui est retourné
@@ -66,8 +66,8 @@ char* _formaterGrille(Grille g){
 			curseur ++;
 		}
 		switch (tabGrid[i]){
-			case RED : grilleFormatee[curseur] = '*';break;
-			case BLU : grilleFormatee[curseur] = 'o';break;
+			case RED : grilleFormatee[curseur] = 'o';break;
+			case BLU : grilleFormatee[curseur] = '*';break;
 			default  : grilleFormatee[curseur] = '.';
 		}
 		curseur ++;
@@ -140,8 +140,8 @@ int* _initGrille(FILE *save, int dim){
 		for (int j=0; j<d; j++){
 			c = temp[j];
 			switch (c){
-				case 'o': pion = BLU;
-				case '*': pion = RED;
+				case 'o': pion = BLU;break;
+				case '*': pion = RED;break;
 				default : pion = VID;
 			}
 			grille[i*d+j]=pion;
@@ -194,8 +194,7 @@ int chargerPartie(const char *nomPartie, Grille *g, char **historique){
 	return 0;
 }
 
-int _testSave(const char *nomPartie){
-	char *historique = "* 1 1o 3 3* 2 2o 0 0";
+int _testSave(const char *nomPartie, const char *historique){
 	Grille g = creation(5);
 	ajouterPion( &g ,1 , 1 , RED );
 	ajouterPion( &g ,3 , 3 , BLU );
@@ -210,16 +209,31 @@ int _testLoad(const char *nomPartie){
 	Grille g;
 	char *historique;
 	int retour = chargerPartie(nomPartie, &g, &historique);
+	
 	printf("historique:\n\033[42m%s\033[00m\n", historique);
+	//print tab
+	int *grille = grilleToTab(g);
+	int dim = getSizeGrille(g);
+	for (int i = 0; i<dim; i++){
+		for (int j=0; j<dim; j++){
+			printf("%d ", grille[i*dim + j]);
+		}
+		printf("\n");
+	}
+	
 	return retour;
 }
 
 int main(){
 	const char *nomPartie="Partie2";
+	char *historique = "* 1 1o 3 3* 2 2o 0 0";
 	printf("\033[31mtestSave\033[00m\n");
-	if ( _testSave(nomPartie) == 0){
+	int r=_testSave(nomPartie, historique);
+	if ( r == 0){
 		printf("\033[31mtestLoad\033[00m\n");
 		_testLoad(nomPartie);
+	} else {
+		printf("retour de testSave: %d\n", r);
 	}
 	return 0;
 }
