@@ -19,8 +19,7 @@ public class Joueur {
 			case "poser" :
 			case "pion":
 			case "p" :
-				saisirCase(p);
-				choixTrouve = true;
+				choixTrouve = saisirCase(p);
 				break;
 			case "menu" : 
 			case "m" :
@@ -33,14 +32,18 @@ public class Joueur {
 		}
 	}
 	
-	public void saisirCase (Partie p){
+	public Boolean saisirCase (Partie p){
 		int colonne ;
-		int ligne ;
-		System.out.println("veuillez saisir une colonne");
-		colonne = input.nextInt() ; 
+		int ligne ; 
 		System.out.println("veuillez saisir une ligne ");
 		ligne = input.nextInt();
-		p.getGrille().ajouterPion(ligne, colonne, couleur);
+		System.out.println("veuillez saisir une colonne");
+		colonne = input.nextInt() ;
+		if (p.getGrille().coupValide(p.getGrille , ligne-1,colonne-1)){
+		    p.getGrille().ajouterPion(ligne-1, colonne-1, couleur);
+		    return true;
+		}
+		return false ;
 	}
 	
 	
