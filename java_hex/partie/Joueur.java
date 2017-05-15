@@ -15,11 +15,16 @@ public class Joueur {
 		while (!choixTrouve){
 			System.out.println("Que souhaitez-vous faire ?");
 			command = input.nextLine();
-			switch (command) {
+			String[] com = command.split(" ",2);
+			switch (com[0]) {
 			case "poser" :
 			case "pion":
 			case "p" :
-				choixTrouve = saisirCase(p);
+				if (com.length == 1){
+				choixTrouve = saisirCase(p," ");
+				}else{
+				choixTrouve = saisirCase(p,com[1]);
+				}
 				break;
 			case "menu" : 
 			case "m" :
@@ -32,19 +37,35 @@ public class Joueur {
 		}
 	}
 	
-	public Boolean saisirCase (Partie p){
+	public Boolean saisirCase (Partie p, String s){
+		      String[] para = s.split(" ");
+		      int l,c;
+		      try {
+			    l = Integer.parseInt(para[0]);
+			} catch (NumberFormatException e) {
+			    return false ;
+			}
+			try {
+			    c = Integer.parseInt(para[1]);
+			} catch (NumberFormatException e) {
+			    return false;
+			}
+		      if ( p.getGrille().ajouterPion(l-1,c-1,couleur)){
+			    return true;
+		      }else{
+			    System.out.println("saisie invalide ");
+			    return false;
+		      }
+		
+		}/*
 		int colonne ;
 		int ligne ; 
 		System.out.println("veuillez saisir une ligne ");
 		ligne = input.nextInt();
 		System.out.println("veuillez saisir une colonne");
 		colonne = input.nextInt() ;
-		if (p.getGrille().coupValide(p.getGrille , ligne-1,colonne-1)){
-		    p.getGrille().ajouterPion(ligne-1, colonne-1, couleur);
-		    return true;
-		}
-		return false ;
-	}
+		input.nextLine(); // vide le buffer
+		return p.getGrille().ajouterPion(ligne-1, colonne-1, couleur);*/
 	
 	
 }
