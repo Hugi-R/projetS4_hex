@@ -4,10 +4,13 @@ import java_hex.partie.*;
 public class Tests{
 	
 	static public void main(String[] args){
-		Tests t = new Tests();
+		/*Tests t = new Tests();
 		t.test_grille_tab();
 		//t.test_sauvegarde();
-		t.test_historique();
+		t.test_historique();*/
+		Partie p = new Partie("partie_test");
+		p.nouvelleGrille(2);
+		p.jouer();
 		
 	}
 	
