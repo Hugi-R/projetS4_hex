@@ -84,9 +84,9 @@ public class Historique{
 		for( String s : historique ){
 			String[] ss = s.split(" ");
 			if( ss[0].equals("o") ){
-				g.ajouterPion( Interger.parseInt(ss[1]), Integer.parseInt(ss[2]), 1 );
+				g.ajouterPion( Integer.parseInt(ss[1]), Integer.parseInt(ss[2]), 1 );
 			} else {
-				g.ajouterPion( Interger.parseInt(ss[1]), Integer.parseInt(ss[2]), 2 );
+				g.ajouterPion( Integer.parseInt(ss[1]), Integer.parseInt(ss[2]), 2 );
 			}
 		}
 		
