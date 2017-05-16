@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class Menu {
 	private static final int taille = 6;
 	private boolean[] permissions;
-	
+
+	Scanner sc = new Scanner(System.in);
 	/**
 	 * 
 	 * @param permissions: est une combinaisson des charactères suivants
@@ -74,25 +75,22 @@ public class Menu {
 	
 	public void regles(){
 		System.out.println("Présentation du jeu de Hex\n");
-		System.out.println("	Le jeu de Hex est un jeu de société combinatoire abstrait pour deux joueurs."+
-				" Il se joue sur un tablier en forme de losange dont les cases sont hexagonales."+
-				" Toutes les dimensions du côté du losange sont possibles, la plus traditionnelle est celle composée par 11 hexagones,"+
-				" mais on trouve aussi les valeurs 13 ou 19. L’un des inventeurs du jeu, John Nash, préconise un tablier de taille 14 × 14."+
-				" Ce jeu possède des similarités avec le go. Ce jeu, inventé par des mathématiciens fait uniquement appel à la logique,"+
-				" à l’image du go ou des échecs. Son étude est source d’inspiration, non seulement en théorie des jeux,"+
-				" mais aussi pour d’autres branches des mathématiques comme la topologie ou la géométrie algébrique."+
-				" Si l’on sait qu’il existe une stratégie gagnante pour le premier joueur,"+
-				" cette stratégie est inconnue si le tablier n’est pas de petite taille (de côté strictement plus petit que 9)."+
-				" La recherche de stratégies efficaces, à défaut d’une stratégie gagnante, est l’objet d’études en intelligence artificielle.");
+		System.out.println("	Le jeu de Hex est un jeu de société combinatoire abstrait pour deux joueurs.\n"+
+				" Il se joue sur un tablier en forme de losange dont les cases sont hexagonales.\n"+
+				" Toutes les dimensions du côté du losange sont possibles, la plus traditionnelle est celle composée par 11 hexagones,\n"+
+				" mais on trouve aussi les valeurs 13 ou 19. L’un des inventeurs du jeu, John Nash, préconise un tablier de taille 14 × 14.");
 		
 		System.out.println("\n\nBut du jeu\n");
-		System.out.println("Le but du jeu est, pour chaque joueur, de relier les deux bords opposés du plateau de jeu (noir: B ou blanc: W)"+
+		System.out.println("Le but du jeu est, pour chaque joueur, de relier les deux bords opposés du plateau de jeu (noir: B ou blanc: W)\n"+
 		" avec un chemin continu de pions.");
 		
 		System.out.println("\n\nLes coups\n");
-		System.out.println("Chaque joueur joue à tour de rôle en posant un pion sur une case libre"+
+		System.out.println("Chaque joueur joue à tour de rôle en posant un pion sur une case libre\n"+
 		" n’importe où sur le plateau de jeu. Le premier qui crée un chemin contigu de pions gagne la partie.\n");
 
+		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
+		
+		sc.nextLine();
 		this.affichage();
 	}
 	
@@ -102,7 +100,7 @@ public class Menu {
 	}
 	
 	private void printMenu(){
-		System.out.println("Entrez une des commandes suivantes:");
+		System.out.println("Entrez un des caractères suivants:");
 		for (int i=0; i<taille; i++){
 			if (this.permissions[i])
 			switch (i){
@@ -124,7 +122,6 @@ public class Menu {
 	}
 	
 	public void affichage(){
-		Scanner sc = new Scanner(System.in);
 		String str;
 		printMenu();
 		str = sc.nextLine();
@@ -133,7 +130,6 @@ public class Menu {
 				printMenu();
 				str = sc.nextLine();
 		}
-		sc.close();
 		switch (str){
 			case "n": this.new_game();
 					break;
@@ -151,4 +147,17 @@ public class Menu {
 		}
 	}
 	
+
+
+
+public static void main(String[] args) {
+		Menu menu = new Menu("nslhrc");
+		menu.affichage();
+		menu.sc.close();
+	}
+
+
+
+
+
 }
