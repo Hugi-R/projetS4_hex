@@ -3,10 +3,16 @@ import java.util.Scanner;
 
 public class Joueur {
 	int couleur ;
+	String nom;
 	Scanner input = new Scanner(System.in);
 	
-	public Joueur( int couleur ) {
+	public Joueur( int couleur, String nom ) {
 		this.couleur = couleur ;
+		this.nom = nom;
+	}
+	
+	public String getNom(){
+		return nom;
 	}
 	
 	public void action (Partie p){
@@ -50,7 +56,7 @@ public class Joueur {
 			} catch (NumberFormatException e) {
 			    return false;
 			}
-		      if ( p.getGrille().ajouterPion(l-1,c-1,couleur)){
+		      if ( p.coup(l-1,c-1,couleur) ){
 			    return true;
 		      }else{
 			    System.out.println("saisie invalide ");

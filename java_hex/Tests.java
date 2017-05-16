@@ -9,7 +9,7 @@ public class Tests{
 		//t.test_sauvegarde();
 		t.test_historique();*/
 		Partie p = new Partie("partie_test");
-		p.nouvelleGrille(3);
+		p.nouvelleGrille(2);
 		p.jouer();
 		
 	}

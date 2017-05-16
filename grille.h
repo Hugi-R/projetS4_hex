@@ -5,10 +5,10 @@
 #define VID 0
 #define RED 1
 #define BLU 2
-#define BBLU1 -1
-#define BRED1 -2
-#define BBLU2 -11
-#define BRED2 -22
+#define BBLU1 -2
+#define BRED1 -1
+#define BBLU2 -22
+#define BRED2 -11
 
 typedef struct s_grille *Grille ;
 
