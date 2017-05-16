@@ -50,15 +50,15 @@ public class Partie{
 	 * @param [output] historique le String contenant l'historique
 	 * @return le pointer vers la grille initilise si tout c'est bien passe, 0 sinon
 	 */
-	private native long chargerPartie(String nomPartie, int numeroSauvegarde, String historique);
+	private native long chargerPartie(String nomPartie, String historique);
 	
 	public int sauvegarder(){
 		return sauvegarderPartie(g.getPointer(), nom, h.toString());
 	}
 	
-	public int charger(int numeroSauvegarde){
+	public int charger(){
 		String historique = new String();
-		long ptr = chargerPartie(nom, numeroSauvegarde, historique);
+		long ptr = chargerPartie(nom, historique);
 		if(ptr != 0){
 			g = new Grille(ptr);
 			h = new Historique(historique);
