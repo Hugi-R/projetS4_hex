@@ -1,7 +1,6 @@
 package java_hex;
 
 import java.util.Scanner;
-import java_hex.partie.*;
 
 /**
 	penser à close sc en fin d'utilisation
@@ -38,11 +37,11 @@ public class Menu {
 				" mais on trouve aussi les valeurs 13 ou 19. L’un des inventeurs du jeu, John Nash, préconise un tablier de taille 14 × 14.");
 		
 		System.out.println("\n\nBut du jeu\n");
-		System.out.println("Le but du jeu est, pour chaque joueur, de relier les deux bords opposés du plateau de jeu (noir: B ou blanc: W)\n"+
+		System.out.println("	Le but du jeu est, pour chaque joueur, de relier les deux bords opposés du plateau de jeu (noir: B ou blanc: W)\n"+
 		" avec un chemin continu de pions.");
 		
 		System.out.println("\n\nLes coups\n");
-		System.out.println("Chaque joueur joue à tour de rôle en posant un pion sur une case libre\n"+
+		System.out.println("	Chaque joueur joue à tour de rôle en posant un pion sur une case libre\n"+
 		" n’importe où sur le plateau de jeu. Le premier qui crée un chemin contigu de pions gagne la partie.\n");
 
 		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
@@ -67,11 +66,11 @@ public class Menu {
 		String str;
 		printMenu();
 		str = sc.nextLine();
-		while (!str.equals("n") ||
-		(this.estMenuSecondaire && (!str.equals("s") || !str.equals("q"))) ||
-		!str.equals("l") ||
-		!str.equals("h") ||
-		!str.equals("r")){
+		while (!(str.equals("n") ||
+		(!this.estMenuSecondaire || (str.equals("s") || str.equals("q"))) ||
+		str.equals("l") ||
+		str.equals("h") ||
+		str.equals("r"))){
 			System.out.print("saisie incorrecte. ");
 			printMenu();
 			str = sc.nextLine();
