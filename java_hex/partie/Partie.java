@@ -1,11 +1,13 @@
 package java_hex.partie;
 import java_hex.Convention;
+import java_hex.Menu;
 
 public class Partie{
 	private Grille g;
 	private String nom;
 	private Historique h;
 	private Joueur j1, j2;
+	private Menu menuPartie;
 	
 	static {
 		System.loadLibrary("hex_jni");
@@ -17,6 +19,25 @@ public class Partie{
 		h = new Historique();
 		j1 = new Joueur(1, "W (o)");
 		j2 = new Joueur(2, "B (*)");
+		menuPartie = new Menu(false);
+	}
+	
+	public void openMenu(){
+		//TODO
+	}
+	
+	public Historique getHistorique(){
+		return h;
+	}
+	
+	/**
+	 * Annule les n dernières actions
+	 */
+	public void undo(int n){
+		int t = g.getSize();
+		h.supprDerniers(n);
+		g.destroy();
+		g = h.grilleFromHistorique(t);
 	}
 	
 	/**
@@ -79,14 +100,9 @@ public class Partie{
 	
 	public void jouer(){
 		Joueur j;
-		if(h.dernierJoueur() == 1){
-			j = j2;
-		} else {
-			j = j1;
-		}
 		
 		do{
-			if(j == j1){
+			if(h.dernierJoueur() == 1){
 				j = j2;
 			} else {
 				j = j1;

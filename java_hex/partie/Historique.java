@@ -33,9 +33,9 @@ public class Historique{
 	
 	public String printLast(int n){
 		String ret = "";
-		
-		for(ListIterator<String> it = historique.listIterator(historique.size()); it.hasPrevious() && n>0; n--){
-			ret += it.previous() + '\n';
+		int i = 0;
+		for(ListIterator<String> it = historique.listIterator(0); it.hasNext() && i<n; i++){
+			ret += i + " : " + it.next() + '\n';
 		}
 		
 		return ret;
@@ -70,7 +70,8 @@ public class Historique{
 	 * Supprime les n dernier ajout a l'historique
 	 */
 	public void supprDerniers(int n){
-		for( int i = 0; i<0; i++)
+		if( n>this.size() ) n = this.size();
+		for( int i = 0; i<n; i++)
 			historique.remove( historique.size()-1 );
 	}
 	

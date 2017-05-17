@@ -19,34 +19,79 @@ public class Joueur {
 		String command ;
 		boolean choixTrouve  = false;
 		while (!choixTrouve){
-			System.out.println("Que souhaitez-vous faire ?");
+			System.out.println("Que souhaitez-vous faire ? (votre tour se termine après avoir joué ou undo)");
 			command = input.nextLine();
 			String[] com = command.split(" ",2);
 			switch (com[0]) {
-			case "poser" :
-			case "pion":
-			case "p" :
-				if (com.length == 1){
-				choixTrouve = saisirCase(p," ");
-				}else{
-				choixTrouve = saisirCase(p,com[1]);
-				}
-				break;
-			case "menu" : 
-			case "m" :
-				//openMenu(); // a modifier si changement
-				choixTrouve = true ;
-				break ;
-			default :
-				break;
+				case "jouer" :
+				case "poser" :
+				case "pion":
+				case "p" :
+					if (com.length == 1){
+						choixTrouve = saisirCase(p," ");
+					}else{
+						choixTrouve = saisirCase(p,com[1]);
+					}
+					break;
+				case "menu" : 
+				case "m" :
+					p.openMenu();
+					break ;
+				case "h" :
+				case "historique" :
+					historique(p, com);
+					break;
+				case "u" :
+				case "undo" :
+					choixTrouve = undo(p, com);
+					break;
+				default :
+					break;
 			}
 		}
 	}
 	
-	public Boolean saisirCase (Partie p, String s){
-		      String[] para = s.split(" ");
-		      int l,c;
-		      try {
+	/**
+	 * Affiche en partie ou totalement l'historique
+	 */
+	private void historique(Partie p, String[] com){
+		String hist;
+		if(com.length > 1){
+			try {
+				int n = Integer.parseInt(com[1]);
+				hist = p.getHistorique().printLast( n );
+				System.out.println(hist);
+				return;
+			} catch (NumberFormatException e) {
+				hist = p.getHistorique().printLast( p.getHistorique().size() );
+				System.out.println(hist);
+			}
+		} else {
+			hist = p.getHistorique().printLast( p.getHistorique().size() );
+			System.out.println(hist);
+		}
+	}
+	
+	private boolean undo(Partie p, String[] com){
+		if(com.length > 1){
+			try {
+				int n = Integer.parseInt(com[1]);
+				p.undo(n);
+				return true;
+			} catch (NumberFormatException e){
+				System.out.println("Saisie incorrecte.");
+				return false;
+			}
+		} else {
+			System.out.println("Saisie incorrecte.");
+			return false;
+		}
+	}
+	
+	private Boolean saisirCase (Partie p, String s){
+		    String[] para = s.split(" ");
+		    int l,c;
+		    try {
 			    l = Integer.parseInt(para[0]);
 			} catch (NumberFormatException e) {
 			    return false ;
@@ -56,11 +101,11 @@ public class Joueur {
 			} catch (NumberFormatException e) {
 			    return false;
 			}
-		      if ( p.coup(l-1,c-1,couleur) ){
-			    return true;
-		      }else{
-			    System.out.println("saisie invalide ");
-			    return false;
+				if ( p.coup(l-1,c-1,couleur) ){
+					return true;
+				}else{
+					System.out.println("saisie invalide ");
+					return false;
 		      }
 		
 		}/*
