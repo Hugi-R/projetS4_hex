@@ -36,7 +36,7 @@ public class Menu {
 		return 0;
 	}
 	
-	public int quitterPartie(){
+	public int quitter(){
 		return 0;
 	}
 	
@@ -50,12 +50,11 @@ public class Menu {
 		return 0;
 	}
 	
-	public int help(){
+	public void help(){
 		System.out.println("help");
-		return 0;
 	}
 	
-	public int regles(){
+	public void regles(){
 		System.out.println("Présentation du jeu de Hex\n");
 		System.out.println("	Le jeu de Hex est un jeu de société combinatoire abstrait pour deux joueurs.\n"+
 				" Il se joue sur un tablier en forme de losange dont les cases sont hexagonales.\n"+
@@ -73,11 +72,6 @@ public class Menu {
 		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
 		
 		sc.nextLine();
-		return 0;
-	}
-	
-	public void commandes(){
-		System.out.println("commandes");
 	}
 	
 	private void printMenuPartie(){
@@ -91,30 +85,33 @@ public class Menu {
 		System.out.println("	l: (load) charger une partie");
 		System.out.println("	h: (help) afficher l'aide");
 		System.out.println("	r: afficher les règles du jeu de Hex");
-		System.out.println("	c: afficher les commandes utilisables lors d'une partie");
 	}
 	
-	public void affichage(){
+	public void menu(){
 		String str;
-		printMenuParti();
+		printMenuPartie();
 		str = sc.nextLine();
-		while (!(str.equals("n") || str.equals("s") || str.equals("l") || str.equals("h") || str.equals("r") || str.equals("c"))){
-				System.out.print("saisie incorrecte. ");
-				printMenuParti();
-				str = sc.nextLine();
+		while (!str.equals("n") ||
+		(!this.estMenuPrincipal && (!str.equals("s") || !str.equals("q"))) ||
+		!str.equals("l") ||
+		!str.equals("h") ||
+		!str.equals("r")){
+			System.out.print("saisie incorrecte. ");
+			printMenuPartie();
+			str = sc.nextLine();
 		}
 		switch (str){
 			case "n": this.new_game();
 					break;
 			case "s": this.sauvegarder();
 					break;
+			case "q": this.quitter();
+					break;
 			case "l": this.charger();
 					break;
 			case "h": this.help();
 					break;
 			case "r": this.regles();
-					break;
-			case "c": this.commandes();
 					break;
 			default	:break;
 		}
@@ -126,7 +123,7 @@ public class Menu {
 public static void main(String[] args) {
 		Boolean estMenuPrincipal = true;
 		Menu menu = new Menu(estMenuPrincipal);
-		menu.affichage();
+		menu.menu();
 		menu.sc.close();
 	}
 
