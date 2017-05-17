@@ -19,7 +19,7 @@ public class Partie{
 		h = new Historique();
 		j1 = new Joueur(1, "W (o)");
 		j2 = new Joueur(2, "B (*)");
-		menuPartie = new Menu(false);
+		menuPartie = new Menu(true);
 	}
 	
 	public int openMenu(){
