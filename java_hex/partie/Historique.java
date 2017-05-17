@@ -50,4 +50,46 @@ public class Historique{
 		
 		return l;
 	}
+	
+	/**
+	 * Renvoit le dernier joueur à avoir jouer
+	 */
+	public int dernierJoueur(){
+		if(historique.size() == 0){
+			return 1;
+		} else {
+			String s = historique.get( historique.size()-1 );
+			if(s.charAt(0) == '*' )
+				return 2;
+			else
+				return 1;
+		}
+	}
+	
+	/**
+	 * Supprime les n dernier ajout a l'historique
+	 */
+	public void supprDerniers(int n){
+		for( int i = 0; i<0; i++)
+			historique.remove( historique.size()-1 );
+	}
+	
+	/**
+	 * Creer une nouvelle grille a partir de l'historique
+	 */
+	public Grille grilleFromHistorique(int sizeGrille){
+		Grille g = new Grille();
+		g.create(sizeGrille);
+		
+		for( String s : historique ){
+			String[] ss = s.split(" ");
+			if( ss[0].equals("o") ){
+				g.ajouterPion( Integer.parseInt(ss[1]), Integer.parseInt(ss[2]), 1 );
+			} else {
+				g.ajouterPion( Integer.parseInt(ss[1]), Integer.parseInt(ss[2]), 2 );
+			}
+		}
+		
+		return g;
+	}
 }

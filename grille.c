@@ -108,6 +108,15 @@ Groupe _fusion3Groupes(Groupe *grp1, Groupe *grp2, Groupe *grp3){
 	return new;
 }
 
+void _debug_print_groupes(Groupe *tab, int size){
+	for(int i = 0; i<size; i++){
+		printf("{");
+		for(int j = 0; j<tab[i]->size; j++)
+			printf(" n=%d_c=%d ", tab[i]->tab[j]->numero, tab[i]->tab[j]->color);
+		printf("}\n");
+	}
+}
+
 Node* creaAllNode( int t ){
     int cpt =t*t;
     Node* tab = (Node*) calloc ((size_t)cpt,sizeof(Node )); // a faire dynamiquement
@@ -393,6 +402,7 @@ void _fixGroupes(Grille *g, Node *n){
 	
 	Node b = _bordNode(*n);
 	if(b != NULL){
+		//Malgré ce test un bord peut se trouver plusieurs fois dans un groupe à cause des fusion, mais cela ne dérange pas la détection du vainqueur.
 		if( _nodeNotInTab((*n)->groupe->tab, (*n)->groupe->size, b) ){
 			_addGroupe( &((*n)->groupe), b );
 		}
@@ -401,6 +411,10 @@ void _fixGroupes(Grille *g, Node *n){
 
 int vainqueur(Grille g)
 {
+	/*printf("groupesRED :\n");
+	_debug_print_groupes(g->groupesRED, g->nbGroupesRED);
+	printf("groupesBLU :\n");
+	_debug_print_groupes(g->groupesBLU, g->nbGroupesBLU);*/
 	bool b1,b2;
 	for(int i = 0; i < g->nbGroupesBLU; i++){
 		b1 = false;

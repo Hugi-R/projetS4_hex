@@ -2,8 +2,8 @@ package java_hex;
 
 public class Convention{
 	public static final int VID = 0;
-	public static final int BLA = 1;
-	public static final int WHI = 2;
+	public static final int WHI = 1;
+	public static final int BLA = 2;
 	
 	public static final char VID_C = '.';
 	public static final char BLA_C = '*';

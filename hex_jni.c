@@ -126,13 +126,13 @@ JNIEXPORT jint JNICALL Java_java_1hex_partie_Partie_sauvegarderPartie
   }
   
 JNIEXPORT jlong JNICALL Java_java_1hex_partie_Partie_chargerPartie
-  (JNIEnv *env, jobject o, jstring nomPartie, jint numeroSauvegarde, jstring historique)
+  (JNIEnv *env, jobject o, jstring nomPartie, jstring historique)
   {
 	  const char *nom = (*env)->GetStringUTFChars(env, nomPartie, 0);
 	  char *hist;
 	  Grille g;
 	  
-	  int ret = chargerPartie(nom, (int)numeroSauvegarde, &g, hist);
+	  int ret = chargerPartie(nom, &g, &hist);
 	  if(ret != 0){
 		  return 0;
 	  }

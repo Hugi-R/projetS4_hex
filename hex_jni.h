@@ -102,7 +102,7 @@ JNIEXPORT jint JNICALL Java_java_1hex_partie_Partie_sauvegarderPartie
  * Signature: (Ljava/lang/String;ILjava/lang/String;)J
  */
 JNIEXPORT jlong JNICALL Java_java_1hex_partie_Partie_chargerPartie
-  (JNIEnv *, jobject, jstring, jint, jstring);
+  (JNIEnv *, jobject, jstring, jstring);
 
 #ifdef __cplusplus
 }
