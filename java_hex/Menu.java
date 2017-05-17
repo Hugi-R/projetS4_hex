@@ -1,7 +1,7 @@
 package java_hex;
 
 import java.util.Scanner;
-import java_hex.partie;
+import java_hex.partie.*;
 
 /**
 	penser à close sc en fin d'utilisation
@@ -83,5 +83,6 @@ public class Menu {
 					break;
 			default	:return str;
 		}
+		return str;
 	}
 }

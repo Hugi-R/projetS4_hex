@@ -15,10 +15,14 @@ public class Joueur {
 		return nom;
 	}
 	
-	public void action (Partie p){
+	/**
+	 * @return 0 si actions non destructive, 1 pour nouvelle partie, 2 pour charger, 3 pour quitter sans sauvegarder 
+	 */
+	public int action (Partie p){
+		int a = 0; // l'action réalisé
 		String command ;
-		boolean choixTrouve  = false;
-		while (!choixTrouve){
+		boolean aJouer  = false;
+		while (!aJouer){
 			System.out.println("Que souhaitez-vous faire ? (votre tour se termine après avoir joué ou undo)");
 			command = input.nextLine();
 			String[] com = command.split(" ",2);
@@ -28,27 +32,32 @@ public class Joueur {
 				case "pion":
 				case "p" :
 					if (com.length == 1){
-						choixTrouve = saisirCase(p," ");
+						aJouer = saisirCase(p," ");
 					}else{
-						choixTrouve = saisirCase(p,com[1]);
+						aJouer = saisirCase(p,com[1]);
 					}
+					a = 0;
 					break;
 				case "menu" : 
 				case "m" :
-					p.openMenu();
+					a = p.openMenu();
+					aJouer = (a != 0);
 					break ;
 				case "h" :
 				case "historique" :
 					historique(p, com);
+					a = 0;
 					break;
 				case "u" :
 				case "undo" :
-					choixTrouve = undo(p, com);
+					aJouer = undo(p, com);
+					a = 0;
 					break;
 				default :
 					break;
 			}
 		}
+		return a;
 	}
 	
 	/**

@@ -22,8 +22,14 @@ public class Partie{
 		menuPartie = new Menu(false);
 	}
 	
-	public void openMenu(){
-		//TODO
+	public int openMenu(){
+		String str = menuPartie.menu();
+		switch (str){
+			case "n": return 1;
+			case "q": return 3;
+			case "l": return 2;
+			default	: return 0;
+		}
 	}
 	
 	public Historique getHistorique(){
@@ -98,9 +104,9 @@ public class Partie{
 		return g;
 	}
 	
-	public void jouer(){
+	public int jouer(){
 		Joueur j;
-		
+		int a; //action du joueur
 		do{
 			if(h.dernierJoueur() == 1){
 				j = j2;
@@ -109,9 +115,11 @@ public class Partie{
 			}
 			System.out.println(g.toString());
 			System.out.println("Joueur " + j.getNom() + " c'est à vous !");
-			j.action(this);
+			a = j.action(this);
+			if(a != 0) return a;
 		}while( g.vainqueur() == 0);
 		System.out.println(g.toString());
 		System.out.println("Le vainqueur est joueur " + j.getNom() + " !");
+		return 0;
 	}
 }
