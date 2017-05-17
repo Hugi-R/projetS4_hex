@@ -26,30 +26,6 @@ public class Menu {
 		return this.estMenuSecondaire;
 	}
 	
-	
-	
-	
-	
-	
-	private int new_game(){
-		System.out.println("new game");
-		return 0;
-	}
-	
-	private int quitter(){
-		return 0;
-	}
-	
-	private int sauvegarder(){
-		System.out.println("save");
-		return 0;
-	}
-	
-	private int charger(){
-		System.out.println("charger");
-		return 0;
-	}
-	
 	private void help(){
 		System.out.println("help");
 	}
@@ -108,19 +84,4 @@ public class Menu {
 			default	:return str;
 		}
 	}
-	
-
-
-
-public static void main(String[] args) {
-		Boolean estMenuSecondaire = true;
-		Menu menu = new Menu(estMenuSecondaire);
-		menu.menu();
-		menu.sc.close();
-	}
-
-
-
-
-
 }
