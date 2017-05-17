@@ -529,21 +529,3 @@ bool verif(Grille g){
   return estValide ;
 }
 
-int* cherchePont ( Grille g , int numCase , int *nbpont ){
-  int *Tab = (int*) malloc (sizeof (int)); 
-  *nbpont = 0;
-  for ( int i = 0 ;  i <6 ; i++ ){
-    if (g->Tab[numCase]->cote[i]->color == VID){
-      printf("case %d ",g->Tab[numCase]->cote[i]->numero);
-      if (g->Tab[numCase]->cote[i]->cote[(i+1)%6]->color == VID && g->Tab[numCase]->cote[(i+1)%6]->color == VID){
-	printf(" %d:%d et %d:%d vide \n",g->Tab[numCase]->cote[i]->cote[(i+1)%6]->numero,g->Tab[numCase]->cote[i]->cote[(i+1)%6]->color,g->Tab[numCase]->cote[(i+1)%6]->numero,g->Tab[numCase]->cote[(i+1)%6]->color);
-	*nbpont+=1;
-	Tab = (int*) realloc (Tab , sizeof(int*)* *nbpont);
-	Tab[*nbpont-1] = g->Tab[numCase]->cote[i]->cote[(i+1)%6]->numero ;
-      }else
-	printf(" %d:%d et %d:%d pas vide \n",g->Tab[numCase]->cote[i]->cote[(i+1)%6]->numero,g->Tab[numCase]->cote[i]->cote[(i+1)%6]->color,g->Tab[numCase]->cote[(i+1)%6]->numero,g->Tab[numCase]->cote[(i+1)%6]->color);
-    }else
-      printf("\n");
-  }
-  return Tab;
-}
