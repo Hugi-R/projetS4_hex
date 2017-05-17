@@ -1,55 +1,29 @@
-package interfaceHex;
+package java_hex;
 
 import java.util.Scanner;
 
-public class Menu {
-	private static final int taille = 6;
-	private boolean[] permissions;
 
+/**
+	penser à close sc en fin d'utilisation
+*/
+public class Menu {
+	private boolean MenuPrincipal;
 	Scanner sc = new Scanner(System.in);
+	
 	/**
 	 * 
-	 * @param permissions: est une combinaisson des charactères suivants
-	 * pour attribuer l'autorisation correspondante:
-	 * 		n: new game
-	 * 		s: sauvegarder
-	 * 		l: load (charger)
-	 * 		h: help
-	 * 		r: règles
-	 * 		c: commandes
+	 * @param principal: si true, le Menu aura les la sauvegarde, quitter partie inutilisables
 	 */
-	public Menu (String permissions){
+	public Menu (Boolean principal){
 		super();
-		this.permissions=new boolean[taille];
-		for(int i=0; i<taille; i++){
-			this.permissions[i] = false;
-		}
-		String[] perm = permissions.split("(?<=.)");
-		int size = perm.length;
-		for (int i=0; i<size; i++){
-			switch (perm[i]){
-				case "n": 	this.permissions[0]=true;
-							break;
-				case "s": 	this.permissions[1]=true;
-							break;
-				case "l": 	this.permissions[2]=true;
-							break;
-				case "h": 	this.permissions[3]=true;
-							break;
-				case "r": 	this.permissions[4]=true;
-							break;
-				case "c": 	this.permissions[5]=true;
-							break;
-				default	:	break;
-			}
-		}
+		this.MenuPrincipal = principal;
 	}
 
 	/**
 	 * @return the permissions
 	 */
-	public boolean[] getPermissions() {
-		return permissions;
+	public boolean estMenuPrincipal() {
+		return this.MenuPrincipal;
 	}
 	
 	
@@ -57,23 +31,31 @@ public class Menu {
 	
 	
 	
-	public void new_game(){
+	public int new_game(){
 		System.out.println("new game");
+		return 0;
 	}
 	
-	public void sauvegarder(){
+	public int quitterPartie(){
+		return 0;
+	}
+	
+	public int sauvegarder(){
 		System.out.println("save");
+		return 0;
 	}
 	
-	public void charger(){
+	public int charger(){
 		System.out.println("charger");
+		return 0;
 	}
 	
-	public void help(){
+	public int help(){
 		System.out.println("help");
+		return 0;
 	}
 	
-	public void regles(){
+	public int regles(){
 		System.out.println("Présentation du jeu de Hex\n");
 		System.out.println("	Le jeu de Hex est un jeu de société combinatoire abstrait pour deux joueurs.\n"+
 				" Il se joue sur un tablier en forme de losange dont les cases sont hexagonales.\n"+
@@ -91,43 +73,34 @@ public class Menu {
 		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
 		
 		sc.nextLine();
-		this.affichage();
+		return 0;
 	}
 	
 	public void commandes(){
 		System.out.println("commandes");
-		
 	}
 	
-	private void printMenu(){
+	private void printMenuPartie(){
 		System.out.println("Entrez un des caractères suivants:");
-		for (int i=0; i<taille; i++){
-			if (this.permissions[i])
-			switch (i){
-				case 0: 	System.out.println("	n: commencer une nouvelle partie");
-							break;
-				case 1: 	System.out.println("	s: sauvegarder la partie en cours");
-							break;
-				case 2: 	System.out.println("	l: (load) charger une partie");
-							break;
-				case 3: 	System.out.println("	h: (help) afficher l'aide");
-							break;
-				case 4: 	System.out.println("	r: afficher les règles du jeu de Hex");
-							break;
-				case 5: 	System.out.println("	c: afficher les commandes utilisables lors d'une partie");
-							break;
-				default	:	break;
-			}
+		
+		System.out.println("	n: commencer une nouvelle partie");
+		if (this.estMenuPrincipal){
+			System.out.println("	s: sauvegarder la partie en cours");
+			System.out.println("	q: quitter la partie");
 		}
+		System.out.println("	l: (load) charger une partie");
+		System.out.println("	h: (help) afficher l'aide");
+		System.out.println("	r: afficher les règles du jeu de Hex");
+		System.out.println("	c: afficher les commandes utilisables lors d'une partie");
 	}
 	
 	public void affichage(){
 		String str;
-		printMenu();
+		printMenuParti();
 		str = sc.nextLine();
 		while (!(str.equals("n") || str.equals("s") || str.equals("l") || str.equals("h") || str.equals("r") || str.equals("c"))){
 				System.out.print("saisie incorrecte. ");
-				printMenu();
+				printMenuParti();
 				str = sc.nextLine();
 		}
 		switch (str){
@@ -151,7 +124,8 @@ public class Menu {
 
 
 public static void main(String[] args) {
-		Menu menu = new Menu("nslhrc");
+		Boolean estMenuPrincipal = true;
+		Menu menu = new Menu(estMenuPrincipal);
 		menu.affichage();
 		menu.sc.close();
 	}
