@@ -87,7 +87,7 @@ public class Menu {
 		System.out.println("	r: afficher les règles du jeu de Hex");
 	}
 	
-	public void menu(){
+	public String menu(){
 		String str;
 		printMenu();
 		str = sc.nextLine();
@@ -101,19 +101,11 @@ public class Menu {
 			str = sc.nextLine();
 		}
 		switch (str){
-			case "n": this.new_game();
-					break;
-			case "s": this.sauvegarder();
-					break;
-			case "q": this.quitter();
-					break;
-			case "l": this.charger();
-					break;
 			case "h": this.help();
 					break;
 			case "r": this.regles();
 					break;
-			default	:break;
+			default	:return str;
 		}
 	}
 	
