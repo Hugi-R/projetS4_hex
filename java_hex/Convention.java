@@ -32,4 +32,13 @@ public class Convention{
 			default : return -1;
 		}
 	}
+	
+	public static String supprEspaces(String s){
+		String[] ss = s.split(" ");
+		String ret = ss[0];
+		for( int i = 1; i<ss.length; i++ ){
+			ret += "_" + ss[i];
+		}
+		return ret;
+	}
 }
