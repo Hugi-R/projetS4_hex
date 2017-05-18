@@ -98,19 +98,26 @@ char* _formaterHistorique(const char *historique){
 }
 
 int sauvegarderPartie(Grille g, const char *nomPartie, const char *historique){
-	int error = 0;
+	int error = -1;
 	if (!_verifHistorique(g, historique))
-		return --error;
-	mkdir(nomPartie, S_IRWXU);
-	DIR *dir = opendir (nomPartie);
-	if (dir == NULL)
-		return --error;
-	//ouverture du fichier de sauvegarde
+		return error;
+	error --;
+	mkdir("save", S_IRWXU);
+	DIR *saveDir = opendir("save");
+	if (saveDir == NULL)
+		return error;
 	char save[256];
-	sprintf(save, "%s/save.txt", nomPartie);
+	sprintf(save, "save/%s", nomPartie);
+	mkdir(save, S_IRWXU);
+	DIR *dir = opendir (save);
+	if (dir == NULL)
+		return error;
+	error --;
+	//ouverture du fichier de sauvegarde
+	sprintf(save, "save/%s/save.txt", nomPartie);
 	FILE *saveFile = fopen (save, "wt");
 	if (saveFile == NULL)
-		return --error;
+		return error;
 	//écriture formatée dans le fichier saveFile
 	char *grilleFormatee = _formaterGrille(g);
 	fprintf(saveFile, "\\hex\n\\dim %d\n", getSizeGrille(g));
@@ -167,12 +174,13 @@ char* _initHistorique(FILE *save){
 }
 
 int chargerPartie(const char *nomPartie, Grille *g, char **historique){
-	int error = 0;
+	int error = -1;
 	char saveName[256];
 	sprintf(saveName, "%s/save.txt", nomPartie);
 	FILE* save = fopen(saveName, "rt");
 	if (save == NULL)
-		return --error;
+		return error;
+	error --;
 	int dim;
 	fscanf(save, "\\hex\n\\dim %d\n", &dim);
 	
@@ -189,7 +197,7 @@ int chargerPartie(const char *nomPartie, Grille *g, char **historique){
 	else {
 		*historique = NULL;
 		if (h !='e')
-			return --error;
+			return error;
 	}
 	return 0;
 }
