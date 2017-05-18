@@ -37,16 +37,13 @@ public class Menu {
 		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
 		sc.nextLine();
 	}
-	
+	/*
 	private static printFnames(String sDir){
 		File[] faFiles = new File(sDir).listFiles();
-		for(File file: faFiles){
+		for(File file: faFiles)
 			System.out.println(file.getAbsolutePath());
-			}
-			if(file.isDirectory()){
-				printFnames(file.getAbsolutePath());
-			}
-		}
+		if(file.isDirectory())
+			printFnames(file.getAbsolutePath());
 	}
 	
 	private String load(){
@@ -55,7 +52,7 @@ public class Menu {
 		printFnames("./save");
 		return ret;
 	}
-	
+	*/
 	private void regles(){
 		System.out.println("REGLES:\n");
 		System.out.println("Présentation du jeu de Hex:\n");
@@ -76,9 +73,21 @@ public class Menu {
 		sc.nextLine();
 	}
 
+	private void printLogo(){
+			System.out.println("\n\n"+
+"	    / \\ / \\ \n"+
+"	   |   |   | \n"+
+"	  / \\ / \\ / \\ \n"+
+"	 | H | E | X | \n"+
+"	  \\ / \\ / \\ / \n"+
+"	   |   |   | \n"+
+"	    \\ / \\ / \n\n");
+		
+	}
+	
 	private void printMenu(){
 		if (!this.estMenuSecondaire)
-			System.out.println("				HEX\n\n\n\n");
+			printLogo();
 		System.out.println("Entrez un des caractères suivants:");
 
 		System.out.println("	n: commencer une nouvelle partie");
