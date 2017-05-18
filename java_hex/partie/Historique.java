@@ -37,7 +37,8 @@ public class Historique{
 		for(ListIterator<String> it = historique.listIterator(0); it.hasNext() && i<n; i++){
 			ret += i + " : " + it.next() + '\n';
 		}
-		
+		if (!ret.equals(""))
+			return "historique vide";
 		return ret;
 	}
 	
