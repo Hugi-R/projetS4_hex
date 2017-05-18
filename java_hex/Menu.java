@@ -26,10 +26,20 @@ public class Menu {
 	}
 	
 	private void help(){
-		System.out.println("help");
+		System.out.println("HELP:\n\ncommandes en jeu:\n"+
+		"	- {jouer, poser, pion, p} coordonnée1 coordonnée2	=> poser un pion aux coordonnées {c1, c2}\n"+
+		"ex. p 5 12 					=> placer un pion ligne 5, colonne 12\n"+
+		"	- {menu, m}						=> ouvre le menu\n"+
+		"	- {historique, h}					=> affiche l'historique complet de la partie\n"+
+		"	- {undo, u} nombre					=> défait les \"nombre\" derniers coups joués\n"+
+		"ex. u 2						=> revient de 2 coups en arrière\n");
+
+		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
+		sc.nextLine();
 	}
 	
 	private void regles(){
+		System.out.println("REGLES:\n");
 		System.out.println("Présentation du jeu de Hex\n");
 		System.out.println("	Le jeu de Hex est un jeu de société combinatoire abstrait pour deux joueurs.\n"+
 				" Il se joue sur un tablier en forme de losange dont les cases sont hexagonales.\n"+
@@ -45,20 +55,21 @@ public class Menu {
 		" n’importe où sur le plateau de jeu. Le premier qui crée un chemin contigu de pions gagne la partie.\n");
 
 		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
-		
 		sc.nextLine();
 	}
-	
+
 	private void printMenu(){
+		if (!this.estMenuSecondaire)
+			System.out.println("				HEX\n\n\n\n");
 		System.out.println("Entrez un des caractères suivants:");
-		
+
 		System.out.println("	n: commencer une nouvelle partie");
 		if (this.estMenuSecondaire){
 			System.out.println("	s: sauvegarder la partie en cours");
 			System.out.println("	q: quitter la partie");
 		}
 		System.out.println("	l: (load) charger une partie");
-		System.out.println("	h: (help) afficher l'aide");
+		System.out.println("	h: (help) afficher l'aide de jeu");
 		System.out.println("	r: afficher les règles du jeu de Hex");
 	}
 	
@@ -67,7 +78,7 @@ public class Menu {
 		printMenu();
 		str = sc.nextLine();
 		while (!(str.equals("n") ||
-		(!this.estMenuSecondaire || (str.equals("s") || str.equals("q"))) ||
+		(this.estMenuSecondaire && (str.equals("s") || str.equals("q"))) ||
 		str.equals("l") ||
 		str.equals("h") ||
 		str.equals("r"))){
