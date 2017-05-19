@@ -28,8 +28,8 @@ int _verifHistorique(Grille g, const char *historique){
 		while (cur < longueur){
 			pion = historique[cur];
 			switch (pion){
-				case 'o': couleur = BLU;break;
-				case '*': couleur = RED;break;
+				case 'o': couleur = RED;break;
+				case '*': couleur = BLU;break;
 				default : couleur = VID;
 			}
 			cur+=2;

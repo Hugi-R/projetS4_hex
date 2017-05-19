@@ -24,10 +24,18 @@ public class Partie{
 	
 	public int openMenu(){
 		String str = menuPartie.menu();
-		switch (str){
+		String[] ss = str.split(" ",2);
+		switch (ss[0]){
 			case "n": return 1;
 			case "q": return 3;
 			case "l": return 2;
+			case "s":
+				int e = sauvegarder(ss[1]);
+				if( e == 0 )
+					System.out.println("Sauvegarde réussie.");
+				else
+					System.out.println("Une erreur (code "+ e +") c'est produite durant la sauvegarde, vérifiez les permissions.");
+				return 0;
 			default	: return 0;
 		}
 	}
@@ -79,8 +87,14 @@ public class Partie{
 	 */
 	private native long chargerPartie(String nomPartie, String historique);
 	
-	public int sauvegarder(){
-		return sauvegarderPartie(g.getPointer(), nom, h.toString());
+	/**
+	 * Sauvegarde la partie, si aucun nom est fourni ( "" ), utilise le nom de partie.
+	 */
+	public int sauvegarder(String nomSave){
+		if( nomSave.equals("") )
+			return sauvegarderPartie( g.getPointer(), nom, h.toString() );
+		else
+			return sauvegarderPartie( g.getPointer(), nomSave, h.toString() );
 	}
 	
 	public int charger(){

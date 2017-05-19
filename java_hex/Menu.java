@@ -267,6 +267,8 @@ public class Menu {
 					if(estMenuSecondaire){
 						str = this.save();
 						if( !str.equals("") ) return str;
+					} else {
+						System.out.println("Impossible de sauvegarder si aucune partie est lancée.");
 					}
 					break;
 				case "h": 

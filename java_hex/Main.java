@@ -19,18 +19,18 @@ public class Main{
 					p.getGrille().destroy();
 					p = new Partie(nomPartie);
 					p.getGrille().create(tailleGrille);
+					a = p.jouer();
 					break;
 				case 2 :
 					p.getGrille().destroy();
 					p = new Partie(nomPartie);
 					p.charger();
+					a = p.jouer();
 					break;
 				default : 
 					a = 3;
 					break;
 			}
-			if( a == 1 || a == 2 )
-				a = p.jouer();
 		}while(a != 3);
 
 	}
