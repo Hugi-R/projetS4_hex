@@ -46,6 +46,10 @@ public class Historique{
 		List<String> l = new ArrayList<String>();
 		String[] hist = s.split("(?<=([o*].{4}))");
 		for( String item : hist ){
+			if(item.equals("")){
+				System.out.println("ERREUR : une erreur c'est produite lors du chargement de l'historique, vérifier l'intégriter de la sauvegarde. Arrêt.");
+				java.lang.System.exit(-1);
+			}
 			l.add(item);
 		}
 		
