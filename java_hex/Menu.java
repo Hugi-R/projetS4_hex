@@ -2,6 +2,7 @@ package java_hex;
 
 import java.util.Scanner;
 import java.io.*;
+import java.lang.*;
 
 /**
 	penser à close sc en fin d'utilisation
@@ -67,7 +68,7 @@ public class Menu {
 		String saisie;
 		boolean ok = false;
 		do {
-			System.out.println("Veillez entrer le nom que portera cette sauvegarde. Le nom ne doit contenir que des lettres et des souslignés \"_\"");
+			System.out.println("Veillez entrer le nom que portera cette sauvegarde. Le nom ne doit contenir que des lettres, des chiffres et des souslignés \"_\"");
 			saisie = sc.nextLine();
 			ok = testNom(saisie);
 			if (!ok)
@@ -187,10 +188,51 @@ public class Menu {
 		return "l " + str;
 	}
 	
-	/* retourne "" si l'utilisateur annule */
+	/**
+	 *  détermine si la saisie correspond à un nombre entre 2 et 35
+	 * @return false si saisie ne correspond pas a un nombre entre 2 et 35, true sinon
+	 */
+	private boolean estIntFormater(String str){
+		if (!str.matches("^\\d+$"))
+			return false;
+		int val = Integer.parseInt(str);
+		if (val<2 || val>35)
+			return false;
+		return true;
+	}
+	
+	/**
+	 *  permet de créer une nouvelle partie avec un nom et une taille saisie
+	 * @return un String de format: "n " + NomDeLaPartie + tailleGrille 
+	 *  		avec NomDeLaPartie ne contennt que des lettre, chiffres et underscores
+	 *		et tailleGrille un int entre 2 et 35
+	 *       ou "" si action annulé
+	 */
 	private String nouvellePartie(){
-		System.out.println("\033[31mnew game pas encore implémenté\033[00m");
-		return "";
+		String str;
+		boolean ok;
+		do {
+			System.out.println("Veuillez nommer votre nouvelle partie. Le nom ne doit contenir que des lettres, des chiffres et des souslignés \"_\""+
+			"\nSaisissez uniquement Entrée pour annuler la création d'une nouvelle partie");
+			str = sc.nextLine();
+			if (str.equals(""))
+				return "";
+			ok = testNom(str);
+			if (!ok)
+				System.out.print("Saisie incorrecte. ");
+		} while (!ok);
+		String nom = str;
+		do {
+			System.out.println("Saisissez une taille de grille. Un nombre entre 2 et 35. La taille recommandée est 14"+
+			"\nSaisissez uniquement Entrée pour annuler la création");
+			str = sc.nextLine();
+			if (str.equals(""))
+				return "";
+			ok = estIntFormater(str);
+			if (!ok)
+				System.out.print("Saisie incorrecte. ");
+		} while (!ok);
+		return "n " + nom + " " + str;
 	}
 
 	public String menu(){
@@ -200,17 +242,6 @@ public class Menu {
 		while(true){
 			printMenu();
 			str = sc.nextLine();
-			/*while (!(str.equals("n") ||
-			(this.estMenuSecondaire && (str.equals("f") ||
-							str.equals("s") || 
-							str.equals("q"))) ||
-			str.equals("l") ||
-			str.equals("h") ||
-			str.equals("r"))){
-				System.out.print("saisie incorrecte. ");
-				printMenu();
-				str = sc.nextLine();
-			}*/
 			switch (str){
 				case "n":
 					if(!estMenuSecondaire){
@@ -243,9 +274,11 @@ public class Menu {
 					break;
 				case "r": 
 					this.regles();
-				default	: break;
+					break;
+				default	:
+					System.out.print("Saisie incorrecte. ");
+					break;
 			}
-			System.out.print("Saisie incorrecte. ");
 		}
 	}
 }
