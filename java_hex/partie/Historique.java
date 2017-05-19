@@ -33,8 +33,8 @@ public class Historique{
 	
 	public String printLast(int n){
 		String ret = "";
-		int i = 0;
-		for(ListIterator<String> it = historique.listIterator(0); it.hasNext() && i<n; i++){
+		int i = 1;
+		for(ListIterator<String> it = historique.listIterator(0); it.hasNext() && i<(n+1); i++){
 			ret += i + " : " + it.next() + '\n';
 		}
 		if (ret.equals(""))
@@ -44,13 +44,15 @@ public class Historique{
 	
 	private List<String> fromString(String s){
 		List<String> l = new ArrayList<String>();
-		String[] hist = s.split("(?<=([o*].{4}))");
-		for( String item : hist ){
-			if(item.equals("")){
-				System.out.println("ERREUR : une erreur c'est produite lors du chargement de l'historique, vérifier l'intégriter de la sauvegarde. Arrêt.");
-				java.lang.System.exit(-1);
+		if( !"".equals(s) ){
+			String[] hist = s.split("(?<=([o*] [0-9]* [0-9]*))");
+			for( String item : hist ){
+				if(item.equals("")){
+					System.out.println("ERREUR : une erreur c'est produite lors du chargement de l'historique, vérifier l'intégriter de la sauvegarde. Arrêt.");
+					java.lang.System.exit(-1);
+				}
+				l.add(item);
 			}
-			l.add(item);
 		}
 		
 		return l;
