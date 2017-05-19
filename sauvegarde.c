@@ -59,6 +59,9 @@ char* _formaterGrille(Grille g){
 	int *tabGrid = grilleToTab(g);
 	sizeGrid=getSizeGrille(g);
 	char *grilleFormatee = malloc (sizeGrid*(sizeGrid+1)+1);
+	for (int i=0; i<sizeGrid*(sizeGrid+1)+1; i++){
+		grilleFormatee[i]=0;
+	}
 	int curseur = 0;
 	for (int i = 0; i<sizeGrid*sizeGrid; i++){
 		if (i%sizeGrid==0 && i != 0){
@@ -129,7 +132,6 @@ int sauvegarderPartie(Grille g, const char *nomPartie, const char *historique){
 	if (strcmp(historique, "")){
 		char *historiqueFormate = _formaterHistorique(historique);
 		fprintf(saveFile, "\\game\n%s\n\\endgame\n", historiqueFormate);
-	printf("%s\n", historiqueFormate);
 		free(historiqueFormate);
 	}
 	fprintf(saveFile, "\\endhex\n");
@@ -250,4 +252,3 @@ int main(){
 	}
 	return 0;
 }
-
