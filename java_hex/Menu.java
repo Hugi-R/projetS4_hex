@@ -38,7 +38,7 @@ public class Menu {
 		"	- {historique, h}					=> affiche l'historique complet de la partie\n"+
 		"	- {undo, u} nombre					=> défait les \"nombre\" derniers coups joués\n"+
 		"ex. u 2						=> revient de 2 coups en arrière\n"+
-		"   - qs => (quick save) sauvegarde rapide, utilise le nom de la partie pour sauvegarder\n");
+		"   	- qs 							=> (quick save) sauvegarde rapide, utilise le nom de la partie pour sauvegarder\n");
 
 		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
 		sc.nextLine();
