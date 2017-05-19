@@ -34,7 +34,7 @@ public class Partie{
 				if( e == 0 )
 					System.out.println("Sauvegarde réussie.");
 				else
-					System.out.println("Une erreur (code "+ e +") c'est produite durant la sauvegarde, vérifiez les permissions.");
+					System.out.println("Une erreur (code "+ e +") s'est produite durant la sauvegarde, vérifiez les permissions.");
 				return 0;
 			default	: return 0;
 		}

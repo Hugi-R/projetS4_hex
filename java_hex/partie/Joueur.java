@@ -19,6 +19,7 @@ public class Joueur {
 	 * @return 0 si actions non destructive, 1 pour nouvelle partie, 2 pour charger, 3 pour quitter sans sauvegarder 
 	 */
 	public int action (Partie p){
+		int e; //erreurs rencontrées
 		int a = 0; // l'action réalisé
 		String command ;
 		boolean aJouer  = false;
@@ -53,6 +54,13 @@ public class Joueur {
 					aJouer = undo(p, com);
 					a = 0;
 					break;
+				case "qs":
+					e = p.sauvegarder("");
+					if( e == 0 )
+						System.out.println("Sauvegarde rapide réussie.");
+					else
+						System.out.println("Une erreur (code "+ e +") s'est produite durant la sauvegarde, vérifiez les permissions.");
+					a = 0;
 				default :
 					break;
 			}
