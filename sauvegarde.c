@@ -10,8 +10,6 @@
 #include "grille.h"
 #include "sauvegarde.h"
 
-#define TAILLE_COUP_HISTORIQUE 5
-
 int _verifHistorique(Grille g, const char *historique){
 	char pion;
 	int x, y;
@@ -151,7 +149,6 @@ int sauvegarderPartie(Grille g, const char *nomPartie, const char *historique){
 	
 	fclose(saveFile);
 	closedir(dir);
-	
 	return 0;
 }
 
@@ -178,20 +175,27 @@ int* _initGrille(FILE *save, int dim){
 	return grille;
 }
 
-char* _initHistorique(FILE *save, int taille_historique){
-	int taille=1;
-	char *histo = malloc(taille);
-	strcpy(histo, "");
-	char coup[taille_historique];
-	while ( (taille_historique ==5) ?
-	    (fscanf (save, "\\play %c%c%c%c%c\n", &coup[0], &coup[1], &coup[2], &coup[3], &coup[4]) == taille_historique) :
-	    (fscanf (save, "\\play %c%c%c%c%c%c%c\n", &coup[0], &coup[1], &coup[2], &coup[3], &coup[4], &coup[5], &coup[6]) == taille_historique)  ){
-		taille += taille_historique;
-		if (realloc(histo, taille) == NULL)
+char* _initHistorique(FILE *save){
+	int size = 1;
+	char *histo = malloc(size);
+	histo[0] = 0;
+	char pion;
+	int x, y;
+	int cur = 0;
+	int ret;
+	while (true){
+		ret = fscanf(save, "\\play %c %d %d\n", &pion, &x, &y);
+		if (ret != 3)
+			break;
+		if (realloc(histo, size+= 5+(x/10+1)+(y/10+1)) == NULL)
 			return NULL;
-		strcat(histo, coup);
+		sprintf(histo+cur, "%c %d %d", pion, x, y);
+		cur += 5;
+		if (x > 9)
+			cur ++;
+		if (y > 9)
+			cur ++;
 	}
-	histo[strlen(histo)]='\0';
 	return histo;
 }
 
@@ -212,12 +216,9 @@ int chargerPartie(const char *nomPartie, Grille *g, char **historique){
 	char x, h;
 	char coup[6];
 	fscanf(save, "%c%c", &x, &h);
-	int taille_historique = 5;
-	if (dim > 9)
-		taille_historique = 7;
 	if (h == 'g'){
 		fscanf(save, "ame\n");
-		*historique = _initHistorique(save, taille_historique);
+		*historique = _initHistorique(save);
 	}
 	else {
 		*historique = NULL;
