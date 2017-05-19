@@ -26,6 +26,9 @@ public class Menu {
 		return this.estMenuSecondaire;
 	}
 	
+	/**
+	 *  affiche l'aide de jeu
+	 */
 	private void help(){
 		System.out.println("HELP:\n\ncommandes en jeu:\n"+
 		"	- {jouer, poser, pion, p} coordonnée1 coordonnée2	=> poser un pion aux coordonnées {c1, c2}\n"+
@@ -39,6 +42,10 @@ public class Menu {
 		sc.nextLine();
 	}
 	
+	/**
+	 *  test si la saisie est au bon format
+	 * @return true si la saisie respecte le format imposé
+	 */
 	private boolean testNom(String saisie){
 		int size = saisie.length();
 		char c;
@@ -53,6 +60,7 @@ public class Menu {
 	}
 	
 	/**
+	 * permet de sauvegarder une partie sous le nom saisi
 	 * @return String formaté: "s NomSave". NomSave est uniquement composé de lettres (min ou MAJ), de chiffres et de soulignés "_".
 	 */
 	private String save(){
@@ -69,6 +77,9 @@ public class Menu {
 		return "s " + saisie;
 	}
 	
+	/**
+	 *  affiche les règles du jeu de Hex
+	 */
 	private void regles(){
 		System.out.println("REGLES:\n");
 		System.out.println("Présentation du jeu de Hex:\n");
@@ -143,7 +154,24 @@ public class Menu {
 		return true;
 	}
 	
-	/* retourne "" si l'utilisateur annule */
+	/**
+	 *  détermine si la saisie correspond à un nom de sauvegarde existante
+	 * @return false si saisie ne correspond a aucun nom de sauvegarde trouvée, true sinon
+	 */
+	private boolean nomExiste(String saisie){
+		File folder = new File("./java_hex/save");
+		File[] listOfFiles = folder.listFiles();
+		int len = listOfFiles.length;
+		for (int i = 0; i < len; i++) {
+			if (!saisie.equals(listOfFiles[i].getName()))
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * @return "" si load annulé ou "l NomPartie" sinon
+	 */
 	private String load(){
 		String str;
 		do {
@@ -153,9 +181,9 @@ public class Menu {
 			  return "";
 			}
 			str = sc.nextLine();
-			if (str.equals("\n"))
+			if (!str.equals("\n"))
 				return "";
-		} while (str.equals(""));  //TODO verif str = nom de save existante
+		} while (nomExiste(str));
 		return "l " + str;
 	}
 	
