@@ -47,12 +47,38 @@ public class Menu {
 	}
 	
 	private String load(){
-		String ret = "l ";
 		System.out.println("Entrez le nom d'une partie sauvegardée:");
 		printFnames("./save");
-		return ret;
+		return "l " + ;
 	}
 	*/
+	private boolean testNom(String saisie){
+		int size = saisie.length();
+		char c;
+		int val;
+		for (int i=0; i<size; i++){
+			c = saisie.charAt(i);
+			val = (int)c;
+			if ((val<(int)'a' || val>(int)'z') && (val<(int)'A' || val>(int)'Z') && (val<(int)'0' || val>(int)'9') && val != (int)' ')
+				return false;
+		}
+		return true;
+	}
+	
+	private String save(){
+		String saisie;
+		boolean ok = false;
+		do {
+			System.out.println("Veillez entrer le nom que portera cette sauvegarde. Le nom ne doit contenir que des lettres et des espaces");
+			saisie = sc.nextLine();
+			ok = testNom(saisie);
+			if (!ok)
+				System.out.print("saisie incorrecte. ");
+		} while (!ok);
+		
+		return "s " + saisie;
+	}
+	
 	private void regles(){
 		System.out.println("REGLES:\n");
 		System.out.println("Présentation du jeu de Hex:\n");
@@ -86,8 +112,6 @@ public class Menu {
 	}
 	
 	private void printMenu(){
-		if (!this.estMenuSecondaire)
-			printLogo();
 		System.out.println("Entrez un des caractères suivants:");
 
 		System.out.println("	n: commencer une nouvelle partie");
@@ -107,15 +131,19 @@ public class Menu {
 	/* retourne "" si l'utilisateur annule */
 	private String load(){
 		//TODO
+		System.out.println("\033[31mload pas encore implémenté\033[00m");
 		return "";
 	}
 	
 	/* retourne "" si l'utilisateur annule */
 	private String nouvellePartie(){
+		System.out.println("\033[31mnew game pas encore implémenté\033[00m");
 		return "";
 	}
 
 	public String menu(){
+		if (!this.estMenuSecondaire)
+			printLogo();
 		String str;
 		while(true){
 			printMenu();
@@ -137,7 +165,7 @@ public class Menu {
 						str = this.nouvellePartie();
 						if( !str.equals("") ) return str;
 					} else {
-						System.out.println("Invalide en partie, veuillez quitter en la partie cour.");
+						System.out.println("Invalide en partie, veuillez quitter la partie en cours.");
 					}
 					break;
 				case "l":
@@ -145,7 +173,7 @@ public class Menu {
 						str = this.load();
 						if( !str.equals("") ) return str;
 					} else {
-						System.out.println("Invalide en partie, veuillez quitter en la partie cour.");
+						System.out.println("Invalide en partie, veuillez quitter la partie en cours.");
 					}
 					break;
 				case "q":
@@ -153,15 +181,20 @@ public class Menu {
 				case "f":
 					return str;
 				case "s":
-					return str;
+					if(!estMenuSecondaire){
+						str = this.save();
+			System.out.println("ret:" + str);
+						if( !str.equals("") ) return str;
+					}
+					break;
 				case "h": 
 					this.help();
 					break;
 				case "r": 
 					this.regles();
-					break;
 				default	: break;
 			}
+			System.out.print("Saisie incorrecte. ");
 		}
 	}
 }
