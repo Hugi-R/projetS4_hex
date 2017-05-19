@@ -1,6 +1,7 @@
 package java_hex;
 
 import java.util.Scanner;
+import java.io.*;
 
 /**
 	penser à close sc en fin d'utilisation
@@ -37,21 +38,7 @@ public class Menu {
 		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
 		sc.nextLine();
 	}
-	/*
-	private static printFnames(String sDir){
-		File[] faFiles = new File(sDir).listFiles();
-		for(File file: faFiles)
-			System.out.println(file.getAbsolutePath());
-		if(file.isDirectory())
-			printFnames(file.getAbsolutePath());
-	}
 	
-	private String load(){
-		System.out.println("Entrez le nom d'une partie sauvegardée:");
-		printFnames("./save");
-		return "l " + ;
-	}
-	*/
 	private boolean testNom(String saisie){
 		int size = saisie.length();
 		char c;
@@ -59,17 +46,20 @@ public class Menu {
 		for (int i=0; i<size; i++){
 			c = saisie.charAt(i);
 			val = (int)c;
-			if ((val<(int)'a' || val>(int)'z') && (val<(int)'A' || val>(int)'Z') && (val<(int)'0' || val>(int)'9') && val != (int)' ')
+			if ((val<(int)'a' || val>(int)'z') && (val<(int)'A' || val>(int)'Z') && (val<(int)'0' || val>(int)'9') && val != (int)'_')
 				return false;
 		}
 		return true;
 	}
 	
+	/**
+	 * @return String formaté: "s NomSave". NomSave est uniquement composé de lettres (min ou MAJ), de chiffres et de soulignés "_".
+	 */
 	private String save(){
 		String saisie;
 		boolean ok = false;
 		do {
-			System.out.println("Veillez entrer le nom que portera cette sauvegarde. Le nom ne doit contenir que des lettres et des espaces");
+			System.out.println("Veillez entrer le nom que portera cette sauvegarde. Le nom ne doit contenir que des lettres et des souslignés \"_\"");
 			saisie = sc.nextLine();
 			ok = testNom(saisie);
 			if (!ok)
@@ -99,6 +89,10 @@ public class Menu {
 		sc.nextLine();
 	}
 
+	
+	/**
+	 *  affiche le logo du jeu de Hex
+	 */
 	private void printLogo(){
 			System.out.println("\n\n"+
 "	    / \\ / \\ \n"+
@@ -111,6 +105,9 @@ public class Menu {
 		
 	}
 	
+	/**
+	 *  affiche le menu
+	 */
 	private void printMenu(){
 		System.out.println("Entrez un des caractères suivants:");
 
@@ -128,11 +125,38 @@ public class Menu {
 			System.out.println("	q: fermer le programme");
 	}
 	
+	/**
+	 *  affiche le nom des sauvegardes existantes
+	 * @return false si aucune sauvegarde trouvée, true sinon
+	 */
+	private static boolean printFnames(String sDir){
+		File folder = new File(sDir);
+		File[] listOfFiles = folder.listFiles();
+		if (listOfFiles == null){
+			System.out.println("	Il n'y a aucune sauvegarde\n");
+			return false;
+		}
+		int len = listOfFiles.length;
+		for (int i = 0; i < len; i++) {
+			System.out.println("	" + listOfFiles[i].getName());
+		}
+		return true;
+	}
+	
 	/* retourne "" si l'utilisateur annule */
 	private String load(){
-		//TODO
-		System.out.println("\033[31mload pas encore implémenté\033[00m");
-		return "";
+		String str;
+		do {
+			System.out.println("Entrez le nom d'une partie sauvegardée ou Entrée pour annuler:");
+			if (!printFnames("./java_hex/save")){
+				System.out.println("Impossible de charger une partie");
+			  return "";
+			}
+			str = sc.nextLine();
+			if (str.equals("\n"))
+				return "";
+		} while (str.equals(""));  //TODO verif str = nom de save existante
+		return "l " + str;
 	}
 	
 	/* retourne "" si l'utilisateur annule */
@@ -183,7 +207,6 @@ public class Menu {
 				case "s":
 					if(estMenuSecondaire){
 						str = this.save();
-			System.out.println("ret:" + str);
 						if( !str.equals("") ) return str;
 					}
 					break;
