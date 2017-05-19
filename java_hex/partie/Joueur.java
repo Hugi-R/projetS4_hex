@@ -24,7 +24,7 @@ public class Joueur {
 		String command ;
 		boolean aJouer  = false;
 		while (!aJouer){
-			System.out.println("Que souhaitez-vous faire ? (votre tour se termine après avoir joué ou undo)");
+			System.out.println("Que souhaitez-vous faire ? (votre tour se termine après avoir joué ou undo)\nEntrez m pour afficher le menu");
 			command = input.nextLine();
 			String[] com = command.split(" ",2);
 			switch (com[0]) {

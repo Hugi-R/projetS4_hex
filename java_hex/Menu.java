@@ -161,11 +161,11 @@ public class Menu {
 	 * @return false si saisie ne correspond a aucun nom de sauvegarde trouvée, true sinon
 	 */
 	private boolean nomExiste(String saisie){
-		File folder = new File("./java_hex/save");
+		File folder = new File("./save");
 		File[] listOfFiles = folder.listFiles();
 		int len = listOfFiles.length;
 		for (int i = 0; i < len; i++) {
-			if (!saisie.equals(listOfFiles[i].getName()))
+			if (saisie.equals(listOfFiles[i].getName()))
 				return true;
 		}
 		return false;
@@ -178,14 +178,14 @@ public class Menu {
 		String str;
 		do {
 			System.out.println("Entrez le nom d'une partie sauvegardée ou Entrée pour annuler:");
-			if (!printFnames("./java_hex/save")){
+			if (!printFnames("./save")){
 				System.out.println("Impossible de charger une partie");
 			  return "";
 			}
 			str = sc.nextLine();
-			if (!str.equals("\n"))
+			if (str.equals("\n"))
 				return "";
-		} while (nomExiste(str));
+		} while (!nomExiste(str));
 		return "l " + str;
 	}
 	
