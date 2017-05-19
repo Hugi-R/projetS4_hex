@@ -81,6 +81,9 @@ char* _formaterHistorique(const char *historique){
 	int l = (int)strlen(historique);
 	char *h=malloc(l/TAILLE_COUP_HISTORIQUE*12+1);
 	int curseur=0;
+	for (int i=0; i<l/TAILLE_COUP_HISTORIQUE*12+1; i++){
+		h[i]=0;
+	}
 	for (int i=0; i<l; i++){
 		if (i%TAILLE_COUP_HISTORIQUE == 0){
 			if (i != 0){
@@ -126,12 +129,14 @@ int sauvegarderPartie(Grille g, const char *nomPartie, const char *historique){
 	if (strcmp(historique, "")){
 		char *historiqueFormate = _formaterHistorique(historique);
 		fprintf(saveFile, "\\game\n%s\n\\endgame\n", historiqueFormate);
+	printf("%s\n", historiqueFormate);
 		free(historiqueFormate);
 	}
 	fprintf(saveFile, "\\endhex\n");
 	
 	fclose(saveFile);
 	closedir(dir);
+	
 	return 0;
 }
 
@@ -176,7 +181,7 @@ char* _initHistorique(FILE *save){
 int chargerPartie(const char *nomPartie, Grille *g, char **historique){
 	int error = -1;
 	char saveName[256];
-	sprintf(saveName, "%s/save.txt", nomPartie);
+	sprintf(saveName, "save/%s/save.txt", nomPartie);
 	FILE* save = fopen(saveName, "rt");
 	if (save == NULL)
 		return error;
