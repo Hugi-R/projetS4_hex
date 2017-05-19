@@ -100,32 +100,68 @@ public class Menu {
 		System.out.println("	r: afficher les règles du jeu de Hex");
 		if (this.estMenuSecondaire)
 			System.out.println("	f: fermer ce menu");
+		else
+			System.out.println("	q: fermer le programme");
+	}
+	
+	/* retourne "" si l'utilisateur annule */
+	private String load(){
+		//TODO
+		return "";
+	}
+	
+	/* retourne "" si l'utilisateur annule */
+	private String nouvellePartie(){
+		return "";
 	}
 
 	public String menu(){
 		String str;
-		printMenu();
-		str = sc.nextLine();
-		while (!(str.equals("n") ||
-		(this.estMenuSecondaire && (str.equals("f") ||
-					    str.equals("s") || 
-					    str.equals("q"))) ||
-		str.equals("l") ||
-		str.equals("h") ||
-		str.equals("r"))){
-			System.out.print("saisie incorrecte. ");
+		while(true){
 			printMenu();
 			str = sc.nextLine();
+			/*while (!(str.equals("n") ||
+			(this.estMenuSecondaire && (str.equals("f") ||
+							str.equals("s") || 
+							str.equals("q"))) ||
+			str.equals("l") ||
+			str.equals("h") ||
+			str.equals("r"))){
+				System.out.print("saisie incorrecte. ");
+				printMenu();
+				str = sc.nextLine();
+			}*/
+			switch (str){
+				case "n":
+					if(!estMenuSecondaire){
+						str = this.nouvellePartie();
+						if( !str.equals("") ) return str;
+					} else {
+						System.out.println("Invalide en partie, veuillez quitter en la partie cour.");
+					}
+					break;
+				case "l":
+					if(!estMenuSecondaire){
+						str = this.load();
+						if( !str.equals("") ) return str;
+					} else {
+						System.out.println("Invalide en partie, veuillez quitter en la partie cour.");
+					}
+					break;
+				case "q":
+					return str;
+				case "f":
+					return str;
+				case "s":
+					return str;
+				case "h": 
+					this.help();
+					break;
+				case "r": 
+					this.regles();
+					break;
+				default	: break;
+			}
 		}
-		switch (str){
-			case "h": this.help();
-					break;
-			case "r": this.regles();
-					break;
-			case "l": //this.load();
-					break;
-			default	:return str;
-		}
-		return str;
 	}
 }
