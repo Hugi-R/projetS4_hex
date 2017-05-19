@@ -181,7 +181,7 @@ public class Menu {
 				case "f":
 					return str;
 				case "s":
-					if(!estMenuSecondaire){
+					if(estMenuSecondaire){
 						str = this.save();
 			System.out.println("ret:" + str);
 						if( !str.equals("") ) return str;
