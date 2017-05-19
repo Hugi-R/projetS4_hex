@@ -164,8 +164,8 @@ int* _initGrille(FILE *save, int dim){
 		for (int j=0; j<d; j++){
 			c = temp[j];
 			switch (c){
-				case 'o': pion = BLU;break;
-				case '*': pion = RED;break;
+				case '*': pion = BLU;break;
+				case 'o': pion = RED;break;
 				default : pion = VID;
 			}
 			grille[i*d+j]=pion;

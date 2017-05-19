@@ -1,5 +1,7 @@
 package java_hex.partie;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Historique{
 	private List<String> historique;
@@ -44,17 +46,12 @@ public class Historique{
 	
 	private List<String> fromString(String s){
 		List<String> l = new ArrayList<String>();
-		if( !"".equals(s) ){
-			String[] hist = s.split("(?<=([o*] [0-9]* [0-9]*))");
-			for( String item : hist ){
-				if(item.equals("")){
-					System.out.println("ERREUR : une erreur c'est produite lors du chargement de l'historique, vérifier l'intégriter de la sauvegarde. Arrêt.");
-					java.lang.System.exit(-1);
-				}
-				l.add(item);
-			}
-		}
-		
+		Matcher m = Pattern.compile("([o*] [0-9]* [0-9]*)").matcher(s);
+		String s2;
+		while (m.find()) {
+			s2 = m.group();
+			l.add(s2);
+		}		
 		return l;
 	}
 	

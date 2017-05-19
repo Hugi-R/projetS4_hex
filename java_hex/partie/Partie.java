@@ -9,6 +9,9 @@ public class Partie{
 	private Joueur j1, j2;
 	private Menu menuPartie;
 	
+	//workaround for java limitation
+	public int errCode;
+	
 	static {
 		System.loadLibrary("hex_jni");
 	}
@@ -85,7 +88,7 @@ public class Partie{
 	 * @param [output] historique le String contenant l'historique
 	 * @return le pointer vers la grille initilise si tout c'est bien passe, 0 sinon
 	 */
-	private native long chargerPartie(String nomPartie, String historique);
+	private native String chargerPartie(String nomPartie);
 	
 	/**
 	 * Sauvegarde la partie, si aucun nom est fourni ( "" ), utilise le nom de partie.
@@ -98,11 +101,12 @@ public class Partie{
 	}
 	
 	public int charger(){
-		String historique = new String();
-		long ptr = chargerPartie(nom, historique);
+		String s = chargerPartie(nom);
+		String[] rep = s.split("_", 2);
+		long ptr = Long.parseLong(rep[0]);
 		if(ptr != 0){
 			g = new Grille(ptr);
-			h = new Historique(historique);
+			h = new Historique(rep[1]);
 			return 0;
 		} else {
 			//erreurs
