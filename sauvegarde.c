@@ -13,7 +13,8 @@
 #define TAILLE_COUP_HISTORIQUE 5
 
 int _verifHistorique(Grille g, const char *historique){
-	char pion, x, y;
+	char pion;
+	int x, y;
 	const int size = getSizeGrille(g);
 	int tab[size][size];
 	for (int i=0; i<size; i++){
@@ -26,17 +27,17 @@ int _verifHistorique(Grille g, const char *historique){
 	int longueur = (int)strlen(historique);
 	if ( longueur != 0){
 		while (cur < longueur){
-			pion = historique[cur];
+			sscanf(historique+cur, "%c %d %d", &pion, &x, &y);
 			switch (pion){
 				case 'o': couleur = RED;break;
 				case '*': couleur = BLU;break;
 				default : couleur = VID;
 			}
-			cur+=2;
-			x = historique[cur]-'0';
-			cur+=2;
-			y = historique[cur]-'0';
-			cur++;
+			cur +=5;
+			if (x > 9)
+				cur ++;
+			if (y > 9)
+				cur ++;
 			tab[x][y]=couleur;
 		}
 	}
@@ -82,23 +83,34 @@ char* _formaterGrille(Grille g){
 //penser a free le char* qui est retourné
 char* _formaterHistorique(const char *historique){
 	int l = (int)strlen(historique);
-	char *h=malloc(l/TAILLE_COUP_HISTORIQUE*12+1);
-	int curseur=0;
-	for (int i=0; i<l/TAILLE_COUP_HISTORIQUE*12+1; i++){
-		h[i]=0;
+	int cur = l/7*12+1;//utilisation dérivée temporaire
+	char *h = malloc(cur);
+	for (int i=0; i<cur; i++){
+		h[i] = 0;
 	}
-	for (int i=0; i<l; i++){
-		if (i%TAILLE_COUP_HISTORIQUE == 0){
-			if (i != 0){
-				h[curseur]='\n';
-				curseur++;
-			}
-			strcat(h, "\\play ");
-			curseur += 6;
+	char pion;
+	int x, y;
+	cur=0;
+	sprintf(h+cur, "\\play ");
+	cur += 6;
+	int curH=0;
+	while (curH < l){
+		sscanf(historique+curH, "%c %d %d", &pion, &x, &y);
+		sprintf(h+cur, "%c %d %d", pion, x, y);
+		cur +=5;
+		curH += 5;
+		if (x > 9){
+			cur ++;
+			curH ++;
 		}
-		h[curseur] = historique[i];
-		curseur++;
-		h[curseur+1] = '\0';
+		if (y > 9){
+			cur ++;
+			curH ++;
+		}
+		if (curH < l){
+			sprintf(h+cur, "\n\\play ");
+			cur += 7;
+		}
 	}
 	return h;
 }
@@ -126,7 +138,8 @@ int sauvegarderPartie(Grille g, const char *nomPartie, const char *historique){
 		return error;
 	//écriture formatée dans le fichier saveFile
 	char *grilleFormatee = _formaterGrille(g);
-	fprintf(saveFile, "\\hex\n\\dim %d\n", getSizeGrille(g));
+	int size = getSizeGrille(g);
+	fprintf(saveFile, "\\hex\n\\dim %d\n", size);
 	fprintf(saveFile, "\\board\n%s\n\\endboard\n", grilleFormatee);
 	free(grilleFormatee);
 	if (strcmp(historique, "")){
@@ -165,13 +178,15 @@ int* _initGrille(FILE *save, int dim){
 	return grille;
 }
 
-char* _initHistorique(FILE *save){
+char* _initHistorique(FILE *save, int taille_historique){
 	int taille=1;
 	char *histo = malloc(taille);
 	strcpy(histo, "");
-	char coup[TAILLE_COUP_HISTORIQUE];
-	while ( fscanf (save, "\\play %c%c%c%c%c\n", &coup[0], &coup[1], &coup[2], &coup[3], &coup[4]) == TAILLE_COUP_HISTORIQUE){
-		taille += TAILLE_COUP_HISTORIQUE;
+	char coup[taille_historique];
+	while ( (taille_historique ==5) ?
+	    (fscanf (save, "\\play %c%c%c%c%c\n", &coup[0], &coup[1], &coup[2], &coup[3], &coup[4]) == taille_historique) :
+	    (fscanf (save, "\\play %c%c%c%c%c%c%c\n", &coup[0], &coup[1], &coup[2], &coup[3], &coup[4], &coup[5], &coup[6]) == taille_historique)  ){
+		taille += taille_historique;
 		if (realloc(histo, taille) == NULL)
 			return NULL;
 		strcat(histo, coup);
@@ -197,9 +212,12 @@ int chargerPartie(const char *nomPartie, Grille *g, char **historique){
 	char x, h;
 	char coup[6];
 	fscanf(save, "%c%c", &x, &h);
+	int taille_historique = 5;
+	if (dim > 9)
+		taille_historique = 7;
 	if (h == 'g'){
 		fscanf(save, "ame\n");
-		*historique = _initHistorique(save);
+		*historique = _initHistorique(save, taille_historique);
 	}
 	else {
 		*historique = NULL;
