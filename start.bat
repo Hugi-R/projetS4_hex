@@ -1,2 +1,2 @@
-java -Djava.library.path=. Tests
+java -Djava.library.path=. java_hex/Main
 PAUSE

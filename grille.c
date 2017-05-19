@@ -275,7 +275,7 @@ void destruction(Grille g)
 
 bool coupValide(Grille g, int l, int c)
 {
-  if ( l > g->size || c > g->size)
+  if ( l > g->size || c > g->size || l < 0 || c < 0 )
     return false ;
   return g->Tab[l*(g->size)+c]->color == VID;
 }

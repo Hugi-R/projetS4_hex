@@ -31,7 +31,7 @@ JFLAGS = -g
 #OBJDIR = obj
 #------------------------
 CFILES = hex_jni.c grille.c sauvegarde.c
-JAVAFILES = java_hex/Convention.java java_hex/partie/Grille.java java_hex/partie/Joueur.java java_hex/partie/Historique.java java_hex/partie/Partie.java java_hex/Tests.java
+JAVAFILES = java_hex/Main.java java_hex/Convention.java java_hex/Menu.java java_hex/partie/Partie.java java_hex/partie/Joueur.java java_hex/partie/Grille.java java_hex/partie/Historique.java
 
 .PHONY: all clean create_dir
 

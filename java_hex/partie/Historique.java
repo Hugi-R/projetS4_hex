@@ -1,5 +1,7 @@
 package java_hex.partie;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Historique{
 	private List<String> historique;
@@ -33,21 +35,23 @@ public class Historique{
 	
 	public String printLast(int n){
 		String ret = "";
-		
-		for(ListIterator<String> it = historique.listIterator(historique.size()); it.hasPrevious() && n>0; n--){
-			ret += it.previous() + '\n';
+		int i = 1;
+		for(ListIterator<String> it = historique.listIterator(0); it.hasNext() && i<(n+1); i++){
+			ret += i + " : " + it.next() + '\n';
 		}
-		
+		if (ret.equals(""))
+			return "historique vide";
 		return ret;
 	}
 	
 	private List<String> fromString(String s){
 		List<String> l = new ArrayList<String>();
-		String[] hist = s.split("(?<=([o*].{4}))");
-		for( String item : hist ){
-			l.add(item);
-		}
-		
+		Matcher m = Pattern.compile("([o*] [0-9]* [0-9]*)").matcher(s);
+		String s2;
+		while (m.find()) {
+			s2 = m.group();
+			l.add(s2);
+		}		
 		return l;
 	}
 	
@@ -70,7 +74,8 @@ public class Historique{
 	 * Supprime les n dernier ajout a l'historique
 	 */
 	public void supprDerniers(int n){
-		for( int i = 0; i<0; i++)
+		if( n>this.size() ) n = this.size();
+		for( int i = 0; i<n; i++)
 			historique.remove( historique.size()-1 );
 	}
 	
