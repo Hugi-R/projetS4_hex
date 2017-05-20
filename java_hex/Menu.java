@@ -123,13 +123,14 @@ public class Menu {
 	 */
 	private void printMenu(){
 		System.out.println("Entrez un des caractères suivants:");
-
-		System.out.println("	n: commencer une nouvelle partie");
+		if(!this.estMenuSecondaire){
+			System.out.println("	n: commencer une nouvelle partie");
+			System.out.println("	l: (load) charger une partie");
+		}
 		if (this.estMenuSecondaire){
 			System.out.println("	s: sauvegarder la partie en cours");
-			System.out.println("	q: quitter la partie");
+			System.out.println("	q: quitter la partie sans sauvegarder");
 		}
-		System.out.println("	l: (load) charger une partie");
 		System.out.println("	h: (help) afficher l'aide de jeu");
 		System.out.println("	r: afficher les règles du jeu de Hex");
 		if (this.estMenuSecondaire)
