@@ -52,7 +52,7 @@ classes:
 
 #compile la bibliothèque utilisée par la partie java
 libHex:
-	$(CC) $(LIBCMD)
+	$(CC) -g $(LIBCMD)
 	
 
 #create_dir:

@@ -264,13 +264,22 @@ void destruction(Grille g)
     for (int i=0; i<(g->size*g->size);i++){
       destructionNode(g->Tab[i]);
     }
-    
     free(g->Tab);
     
     for ( int i=0 ; i<4 ; i++ ){
       destructionNode(g->bord[i]);
     }
-    free(g->bord);
+    
+	
+	for(int i = 0; i<g->nbGroupesRED; i++ )
+		_destroyGroupe(g->groupesRED[i]);
+	free(g->groupesRED);
+	
+	for(int i = 0; i<g->nbGroupesBLU; i++ )
+		_destroyGroupe(g->groupesBLU[i]);
+	free(g->groupesBLU);
+	
+	free(g->bord);
 }
 
 bool coupValide(Grille g, int l, int c)

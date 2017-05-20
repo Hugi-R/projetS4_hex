@@ -187,7 +187,7 @@ public class Menu {
 			  return "";
 			}
 			str = sc.nextLine();
-			if (str.equals("\n"))
+			if ("".equals(str))
 				return "";
 		} while (!nomExiste(str));
 		return "l " + str;
