@@ -71,6 +71,9 @@ public class Menu {
 		do {
 			System.out.println("Veillez entrer le nom que portera cette sauvegarde. Le nom ne doit contenir que des lettres, des chiffres et des souslignés \"_\"");
 			saisie = sc.nextLine();
+			if( "".equals(saisie) ){
+				return "";
+			}
 			ok = testNom(saisie);
 			if (!ok)
 				System.out.print("saisie incorrecte. ");
