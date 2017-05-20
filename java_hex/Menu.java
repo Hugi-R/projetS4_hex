@@ -38,7 +38,8 @@ public class Menu {
 		"	- {historique, h}					=> affiche l'historique complet de la partie\n"+
 		"	- {undo, u} nombre					=> défait les \"nombre\" derniers coups joués\n"+
 		"ex. u 2						=> revient de 2 coups en arrière\n"+
-		"   	- qs 							=> (quick save) sauvegarde rapide, utilise le nom de la partie pour sauvegarder\n");
+		"   	- qs 							=> (quick save) sauvegarde rapide, utilise le nom de la partie pour sauvegarder\n"+
+		"	- a							=> afficher la grille de la partie en cours");
 
 		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
 		sc.nextLine();
@@ -187,7 +188,7 @@ public class Menu {
 			  return "";
 			}
 			str = sc.nextLine();
-			if (str.equals("\n"))
+			if ("".equals(str))
 				return "";
 		} while (!nomExiste(str));
 		return "l " + str;
@@ -264,10 +265,6 @@ public class Menu {
 						System.out.println("Invalide en partie, veuillez quitter la partie en cours.");
 					}
 					break;
-				case "q":
-					return str;
-				case "f":
-					return str;
 				case "s":
 					if(estMenuSecondaire){
 						str = this.save();
@@ -282,6 +279,10 @@ public class Menu {
 				case "r": 
 					this.regles();
 					break;
+				case "q":
+					return str;
+				case "f":
+					return str;
 				default	:
 					System.out.print("Saisie incorrecte. ");
 					break;
