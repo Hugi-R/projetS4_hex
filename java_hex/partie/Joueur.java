@@ -61,6 +61,11 @@ public class Joueur {
 					else
 						System.out.println("Une erreur (code "+ e +") s'est produite durant la sauvegarde, vérifiez les permissions.");
 					a = 0;
+					break;
+				case "a":
+					System.out.println( p.getGrille().toString() );
+					a = 0;
+					break;
 				default :
 					break;
 			}

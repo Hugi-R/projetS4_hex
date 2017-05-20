@@ -280,8 +280,8 @@ public class Menu {
 					this.regles();
 					break;
 				case "q":
+					return str;
 				case "f":
-				case "a":
 					return str;
 				default	:
 					System.out.print("Saisie incorrecte. ");
