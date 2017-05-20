@@ -222,7 +222,8 @@ int chargerPartie(const char *nomPartie, Grille *g, char **historique){
 		*historique = _initHistorique(save);
 	}
 	else {
-		*historique = NULL;
+		*historique = malloc(1);
+		*historique[0] = 0;
 		if (h !='e')
 			return error;
 	}
