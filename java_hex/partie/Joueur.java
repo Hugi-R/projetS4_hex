@@ -106,7 +106,11 @@ public class Joueur {
 	}
 	
 	private Boolean saisirCase (Partie p, String s){
-		    String[] para = s.split(" ");
+		    String[] para = s.split(" ",2);
+			if(para.length != 2){
+				System.out.println("saisie invalide ");
+				return false;
+			}
 		    int l,c;
 		    try {
 			    l = Integer.parseInt(para[0]);
