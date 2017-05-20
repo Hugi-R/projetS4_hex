@@ -30,8 +30,8 @@ public class Partie{
 		String[] ss = str.split(" ",2);
 		switch (ss[0]){
 			case "n": return 1;
-			case "q": return 3;
-			case "l": return 2;
+			case "q": return 1;
+			case "l": return 1;
 			case "s":
 				int e = sauvegarder(ss[1]);
 				if( e == 0 )
@@ -134,7 +134,7 @@ public class Partie{
 			System.out.println(g.toString());
 			System.out.println("Joueur " + j.getNom() + " c'est à vous !");
 			a = j.action(this);
-			if(a != 0) return a;
+			if(a != 0) return 0;
 		}while( g.vainqueur() == 0);
 		System.out.println(g.toString());
 		System.out.println("Le vainqueur est joueur " + j.getNom() + " !");
