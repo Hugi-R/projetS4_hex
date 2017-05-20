@@ -81,7 +81,7 @@ char* _formaterGrille(Grille g){
 //penser a free le char* qui est retourné
 char* _formaterHistorique(const char *historique){
 	int l = (int)strlen(historique);
-	int cur = l/7*12+1;//utilisation dérivée temporaire
+	int cur = l/5*12+1;//utilisation dérivée temporaire
 	char *h = malloc(cur);
 	for (int i=0; i<cur; i++){
 		h[i] = 0;
@@ -149,6 +149,7 @@ int sauvegarderPartie(Grille g, const char *nomPartie, const char *historique){
 	
 	fclose(saveFile);
 	closedir(dir);
+	closedir(saveDir);
 	return 0;
 }
 
