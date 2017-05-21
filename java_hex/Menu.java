@@ -260,26 +260,26 @@ public class Menu {
 	private String changer(){
 		String j1, j2, str;
 		do {
-			System.out.println("Veuillez saisir le type du joueur 1: humain (h) ou ordinateur (o)");
+			System.out.println("Veuillez saisir le type du joueur Blanc (o): humain (h) ou ordinateur (o)");
 			str = sc.nextLine();
 			if (!(str.equals("h") || str.equals("o")))
 				System.out.print("Saisie incorrecte. ");
 		} while (!(str.equals("h") || str.equals("o")));
 		j1 = str;
 		do {
-			System.out.println("Veuillez saisir le type du joueur 2: humain (h) ou ordinateur (o)");
+			System.out.println("Veuillez saisir le type du joueur Noir (*): humain (h) ou ordinateur (o)");
 			str = sc.nextLine();
 			if (!(str.equals("h") || str.equals("o")))
 				System.out.print("Saisie incorrecte. ");
 		} while (!(str.equals("h") || str.equals("o")));
 		j2 = str;
 		
-		System.out.print("Le joueur 1 est maintenant un ");
+		System.out.print("Le joueur Blanc (o) est maintenant un ");
 		if (j1.equals("h"))
 			System.out.print("humain");
 		else
 			System.out.print("ordinateur");
-		System.out.print(" et le joueur 2 est un ");
+		System.out.print(" et le joueur Noir (*) est un ");
 		if (j2.equals("h"))
 			System.out.print("humain");
 		else
