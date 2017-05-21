@@ -142,6 +142,7 @@ public class Menu {
 		}
 		System.out.println("	h: (help) afficher l'aide de jeu");
 		System.out.println("	r: afficher les règles du jeu de Hex");
+		System.out.println("	credit: afficher les crédits de ce logiciel");
 		if (this.estMenuSecondaire)
 			System.out.println("	f: fermer ce menu");
 		else
@@ -246,6 +247,20 @@ public class Menu {
 		return "n " + nom + " " + str;
 	}
 
+	private void credit(){
+		System.out.println("CREDITS:\n"+
+		"	Ce logiciel permettant de jouer au jeu de Hex, inventé par Piet Hein et John Forbes Nash est l'oeuvre d'un projet universitaire de seconde année de licence informatique "+
+		"réalisé en groupe à l'université Paul Sabatier Toulouse France.\n"+
+		"	Les membres du groupe 37 sont:\n"+
+		"		- ROUSSEL Hugo\n"+
+		"		- SELEBRAN Pierre\n"+
+		"		- ROUSSEL-FAYARD Adrian\n\n"+
+		"	Nous avons été encadré par Mr DUGAT Vincent\n");
+		
+		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
+		sc.nextLine();
+	}
+	
 	public String menu(){
 		if (!this.estMenuSecondaire)
 			printLogo();
@@ -277,6 +292,9 @@ public class Menu {
 					} else {
 						System.out.println("Impossible de sauvegarder si aucune partie est lancée.");
 					}
+					break;
+				case "credit":
+					this.credit();
 					break;
 				case "h": 
 					this.help();
