@@ -39,7 +39,12 @@ public class Menu {
 		"	- {undo, u} nombre					=> défait les \"nombre\" derniers coups joués\n"+
 		"ex. u 2						=> revient de 2 coups en arrière\n"+
 		"   	- qs 							=> (quick save) sauvegarde rapide, utilise le nom de la partie pour sauvegarder\n"+
-		"	- a							=> afficher la grille de la partie en cours");
+		"	- a							=> afficher la grille de la partie en cours\n"+
+		"	- c joueur1 joueur2					=> changer les joueurs. permet de passer un joueur humain (h) a ordinateur (o) ou inversement\n"+
+		"ex. c h h						=> la partie en cours continura avec les deux joueurs humain. C'est le cas par défaut\n"+
+		"ex. c h o						=> le joueur1 sera humain, le joueur2 sera joué par la machine\n"+
+		"ex. c o h						=> le joueur1 sera un ordinateur et le joueur2 un humain\n"+
+		"remarque: \"c o o\" est également possible, les deux joueurs seront des ordinateurs et la partie se jouera entièrement toute seule\n");
 
 		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
 		sc.nextLine();
