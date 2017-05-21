@@ -31,19 +31,19 @@ public class Menu {
 	 *  affiche l'aide de jeu
 	 */
 	private void help(){
-		System.out.println("HELP:\n\ncommandes en jeu:\n"+
-		"	- {jouer, poser, pion, p} coordonnée1 coordonnée2	=> poser un pion aux coordonnées {c1, c2}\n"+
+		System.out.println("HELP:\n\ncommandes en jeu:"+
+		"\n	- {jouer, poser, pion, p} coordonnée1 coordonnée2	=> poser un pion aux coordonnées {c1, c2}\n"+
 		"ex. p 5 12 					=> placer un pion ligne 5, colonne 12\n"+
-		"	- {menu, m}						=> ouvre le menu\n"+
-		"	- {historique, h}					=> affiche l'historique complet de la partie\n"+
-		"	- {undo, u} nombre					=> défait les \"nombre\" derniers coups joués\n"+
+		"\n	- {menu, m}						=> ouvre le menu\n"+
+		"\n	- {historique, h}					=> affiche l'historique complet de la partie\n"+
+		"\n	- {undo, u} nombre					=> défait les \"nombre\" derniers coups joués\n"+
 		"ex. u 2						=> revient de 2 coups en arrière\n"+
-		"   	- qs 							=> (quick save) sauvegarde rapide, utilise le nom de la partie pour sauvegarder\n"+
-		"	- a							=> afficher la grille de la partie en cours\n"+
-		"	- c joueur1 joueur2					=> changer les joueurs. permet de passer un joueur humain (h) a ordinateur (o) ou inversement\n"+
-		"ex. c h h						=> la partie en cours continura avec les deux joueurs humain. C'est le cas par défaut\n"+
-		"ex. c h o						=> le joueur1 sera humain, le joueur2 sera joué par la machine\n"+
-		"ex. c o h						=> le joueur1 sera un ordinateur et le joueur2 un humain\n"+
+		"\n	- qs 							=> (quick save) sauvegarde rapide, utilise le nom de la partie pour sauvegarder\n"+
+		"\n	- a							=> afficher la grille de la partie en cours\n"+
+		"\n	- c joueur1 joueur2					=> changer les joueurs. permet de passer d'un joueur humain (h) à ordinateur (o) ou inversement\n"+
+		"ex. c h h					=> la partie en cours continura avec les deux joueurs humain. C'est le cas par défaut\n"+
+		"ex. c h o					=> le joueur1 sera humain, le joueur2 sera joué par la machine\n"+
+		"ex. c o h					=> le joueur1 sera un ordinateur et le joueur2 un humain\n"+
 		"remarque: \"c o o\" est également possible, les deux joueurs seront des ordinateurs et la partie se jouera entièrement toute seule\n");
 
 		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
