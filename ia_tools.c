@@ -242,7 +242,7 @@ void convertisseur ( Grille g , int numcase , int *ligne , int *colonne ){
 	int cas = numcase ;
 	*ligne =0;
 	*colonne = 0 ;
-	while ( cas > g->size ){
+	while ( cas >= g->size ){
 		*ligne = *ligne +1;
 		cas = cas- g->size;
 	}

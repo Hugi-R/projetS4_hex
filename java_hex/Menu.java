@@ -284,7 +284,7 @@ public class Menu {
 			System.out.print("humain");
 		else
 			System.out.print("ordinateur");
-		System.out.println(\n);
+		System.out.println('\n');
 		return "c " + j1 + " " + j2;
 	}
 	
