@@ -87,5 +87,4 @@ bool verif (Grille g);
 
 void deplacement ( Grille g);
 
-
 #endif

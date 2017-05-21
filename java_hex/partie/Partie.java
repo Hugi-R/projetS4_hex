@@ -6,7 +6,7 @@ public class Partie{
 	private Grille g;
 	private String nom;
 	private Historique h;
-	private Joueur j1, j2;
+	private IJoueurs j1, j2;
 	private Menu menuPartie;
 	
 	//workaround for java limitation
@@ -25,6 +25,15 @@ public class Partie{
 		menuPartie = new Menu(true);
 	}
 	
+	public Partie(String nom, IJoueurs j1, IJoueurs j2){
+		g = new Grille();
+		this.nom = nom;
+		h = new Historique();
+		this.j1 = j1;
+		this.j2 = j2;
+		menuPartie = new Menu(true);
+	}
+	
 	public int openMenu(){
 		String str = menuPartie.menu();
 		String[] ss = str.split(" ",2);
@@ -39,7 +48,38 @@ public class Partie{
 				else
 					System.out.println("Une erreur (code "+ e +") s'est produite durant la sauvegarde, vérifiez les permissions.");
 				return 0;
+			case "c":
+				changer(ss[1]);
+				return 2;
 			default	: return 0;
+		}
+	}
+	
+	private void changer(String s){
+		String[] com = s.split(" ",2);
+		switch(com[0]){
+			case "h":
+				j1 = new Joueur(1, "W (o)");
+				break;
+			case "o":
+				j1 = new Ordinateur(1, "IA W (o)");
+				break;
+			default :
+				System.out.println("ERREUR : quelque chose c'est mal passé pour changer les joueurs.");
+				System.exit(1);
+				break;
+		}
+		switch(com[1]){
+			case "h":
+				j2 = new Joueur(2, "B (*)");
+				break;
+			case "o":
+				j2 = new Ordinateur(2, "IA B (*)");
+				break;
+			default :
+				System.out.println("ERREUR : quelque chose c'est mal passé pour changer les joueurs.");
+				System.exit(1);
+				break;
 		}
 	}
 	
@@ -123,7 +163,7 @@ public class Partie{
 	}
 	
 	public int jouer(){
-		Joueur j;
+		IJoueurs j;
 		int a; //action du joueur
 		do{
 			if(h.dernierJoueur() == 1){
@@ -134,10 +174,10 @@ public class Partie{
 			System.out.println(g.toString());
 			System.out.println("Joueur " + j.getNom() + " c'est à vous !");
 			a = j.action(this);
-			if(a != 0) return 0;
+			if(a == 1) return 0;
 		}while( g.vainqueur() == 0);
 		System.out.println(g.toString());
-		System.out.println("Le vainqueur est joueur " + j.getNom() + " !");
+		System.out.println("FELICITATIONS !!\nLe vainqueur est joueur " + j.getNom() + " !\n");
 		return 0;
 	}
 }

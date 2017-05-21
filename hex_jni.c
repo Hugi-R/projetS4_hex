@@ -8,6 +8,7 @@
 #include "hex_jni.h"
 #include "grille.h"
 #include "sauvegarde.h"
+#include "ia_tools.h"
 
 /* Les conversions long<->pointer sont volontaire.
    Il n'y a pas de type pour les pointer en java.
@@ -151,6 +152,12 @@ JNIEXPORT jstring JNICALL Java_java_1hex_partie_Partie_chargerPartie
 	  free(tmpS);
 	  
 	  return retS;
+  }
+  
+JNIEXPORT jint JNICALL Java_java_1hex_partie_Ordinateur_minimax
+  (JNIEnv *env, jobject o, jlong g, jint couleur)
+  {
+	  return minimax ( (Grille)g , (int)couleur );
   }
   
   

@@ -103,6 +103,14 @@ JNIEXPORT jint JNICALL Java_java_1hex_partie_Partie_sauvegarderPartie
  */
 JNIEXPORT jstring JNICALL Java_java_1hex_partie_Partie_chargerPartie
   (JNIEnv *, jobject, jstring);
+  
+/*
+ * Class:     java_hex_partie_Ordinateur
+ * Method:    minimax
+ * Signature: (JI)I
+ */
+JNIEXPORT jint JNICALL Java_java_1hex_partie_Ordinateur_minimax
+  (JNIEnv *, jobject, jlong, jint);
 
 #ifdef __cplusplus
 }

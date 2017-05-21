@@ -537,3 +537,4 @@ bool verif(Grille g){
   printf("\n");
   return estValide ;
 }
+

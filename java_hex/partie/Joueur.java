@@ -1,9 +1,9 @@
 package java_hex.partie;
 import java.util.Scanner;
 
-public class Joueur {
-	int couleur ;
-	String nom;
+public class Joueur implements IJoueurs {
+	private int couleur ;
+	private String nom;
 	Scanner input = new Scanner(System.in);
 	
 	public Joueur( int couleur, String nom ) {
@@ -16,7 +16,7 @@ public class Joueur {
 	}
 	
 	/**
-	 * @return 0 si actions non destructive, 1 pour nouvelle partie, 2 pour charger, 3 pour quitter sans sauvegarder 
+	 * @return 0 si actions non destructive, 1 pour quitter la partie, 2 après un changement de joueur
 	 */
 	public int action (Partie p){
 		int e; //erreurs rencontrées
@@ -111,38 +111,28 @@ public class Joueur {
 	}
 	
 	private Boolean saisirCase (Partie p, String s){
-		    String[] para = s.split(" ",2);
-			if(para.length != 2){
-				System.out.println("saisie invalide ");
-				return false;
-			}
-		    int l,c;
-		    try {
-			    l = Integer.parseInt(para[0]);
-			} catch (NumberFormatException e) {
-			    return false ;
-			}
-			try {
-			    c = Integer.parseInt(para[1]);
-			} catch (NumberFormatException e) {
-			    return false;
-			}
-				if ( p.coup(l-1,c-1,couleur) ){
-					return true;
-				}else{
-					System.out.println("saisie invalide ");
-					return false;
-		      }
+		String[] para = s.split(" ",2);
+		if(para.length != 2){
+			System.out.println("saisie invalide ");
+			return false;
+		}
+		int l,c;
+		try {
+			l = Integer.parseInt(para[0]);
+		} catch (NumberFormatException e) {
+			return false ;
+		}
+		try {
+			c = Integer.parseInt(para[1]);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		if ( p.coup(l-1,c-1,couleur) ){
+			return true;
+		}else{
+			System.out.println("saisie invalide ");
+			return false;
+		}
 		
-		}/*
-		int colonne ;
-		int ligne ; 
-		System.out.println("veuillez saisir une ligne ");
-		ligne = input.nextInt();
-		System.out.println("veuillez saisir une colonne");
-		colonne = input.nextInt() ;
-		input.nextLine(); // vide le buffer
-		return p.getGrille().ajouterPion(ligne-1, colonne-1, couleur);*/
-	
-	
+	}	
 }

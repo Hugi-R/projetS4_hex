@@ -31,15 +31,15 @@ public class Menu {
 	 *  affiche l'aide de jeu
 	 */
 	private void help(){
-		System.out.println("HELP:\n\ncommandes en jeu:\n"+
-		"	- {jouer, poser, pion, p} coordonnée1 coordonnée2	=> poser un pion aux coordonnées {c1, c2}\n"+
+		System.out.println("HELP:\n\ncommandes en jeu:"+
+		"\n	- {jouer, poser, pion, p} coordonnée1 coordonnée2	=> poser un pion aux coordonnées {c1, c2}\n"+
 		"ex. p 5 12 					=> placer un pion ligne 5, colonne 12\n"+
-		"	- {menu, m}						=> ouvre le menu\n"+
-		"	- {historique, h}					=> affiche l'historique complet de la partie\n"+
-		"	- {undo, u} nombre					=> défait les \"nombre\" derniers coups joués\n"+
+		"\n	- {menu, m}						=> ouvre le menu\n"+
+		"\n	- {historique, h}					=> affiche l'historique complet de la partie\n"+
+		"\n	- {undo, u} nombre					=> défait les \"nombre\" derniers coups joués\n"+
 		"ex. u 2						=> revient de 2 coups en arrière\n"+
-		"   	- qs 							=> (quick save) sauvegarde rapide, utilise le nom de la partie pour sauvegarder\n"+
-		"	- a							=> afficher la grille de la partie en cours");
+		"\n	- qs 							=> (quick save) sauvegarde rapide, utilise le nom de la partie pour sauvegarder\n"+
+		"\n	- a							=> afficher la grille de la partie en cours\n");
 
 		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
 		sc.nextLine();
@@ -100,7 +100,7 @@ public class Menu {
 		
 		System.out.println("\n\nLes coups:\n");
 		System.out.println("	Chaque joueur joue à tour de rôle en posant un pion sur une case libre\n"+
-		"n’importe où sur le plateau de jeu. Le premier qui crée un chemin contigu de pions gagne la partie.\n");
+		"n’importe où sur le plateau de jeu. Le premier qui crée un chemin contigu de pions gagne la partie.\nLe joueur Noir engage la partie\n");
 
 		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
 		sc.nextLine();
@@ -132,11 +132,13 @@ public class Menu {
 			System.out.println("	l: (load) charger une partie");
 		}
 		if (this.estMenuSecondaire){
+			System.out.println("	c: changer de joueur");
 			System.out.println("	s: sauvegarder la partie en cours");
 			System.out.println("	q: quitter la partie sans sauvegarder");
 		}
 		System.out.println("	h: (help) afficher l'aide de jeu");
 		System.out.println("	r: afficher les règles du jeu de Hex");
+		System.out.println("	credit: afficher les crédits de ce logiciel");
 		if (this.estMenuSecondaire)
 			System.out.println("	f: fermer ce menu");
 		else
@@ -241,6 +243,51 @@ public class Menu {
 		return "n " + nom + " " + str;
 	}
 
+	private void credit(){
+		System.out.println("CREDITS:\n"+
+		"	Ce logiciel permettant de jouer au jeu de Hex, inventé par Piet Hein et John Forbes Nash est l'oeuvre d'un projet universitaire de seconde année de licence informatique "+
+		"réalisé en groupe à l'université Paul Sabatier Toulouse France.\n"+
+		"	Les membres du groupe 37 sont:\n"+
+		"		- ROUSSEL Hugo\n"+
+		"		- SELEBRAN Pierre\n"+
+		"		- ROUSSEL-FAYARD Adrian\n\n"+
+		"	Nous avons été encadré par Mr DUGAT Vincent\n");
+		
+		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
+		sc.nextLine();
+	}
+	
+	private String changer(){
+		String j1, j2, str;
+		do {
+			System.out.println("Veuillez saisir le type du joueur Blanc (o): humain (h) ou ordinateur (o)");
+			str = sc.nextLine();
+			if (!(str.equals("h") || str.equals("o")))
+				System.out.print("Saisie incorrecte. ");
+		} while (!(str.equals("h") || str.equals("o")));
+		j1 = str;
+		do {
+			System.out.println("Veuillez saisir le type du joueur Noir (*): humain (h) ou ordinateur (o)");
+			str = sc.nextLine();
+			if (!(str.equals("h") || str.equals("o")))
+				System.out.print("Saisie incorrecte. ");
+		} while (!(str.equals("h") || str.equals("o")));
+		j2 = str;
+		
+		System.out.print("Le joueur Blanc (o) est maintenant un ");
+		if (j1.equals("h"))
+			System.out.print("humain");
+		else
+			System.out.print("ordinateur");
+		System.out.print(" et le joueur Noir (*) est un ");
+		if (j2.equals("h"))
+			System.out.print("humain");
+		else
+			System.out.print("ordinateur");
+		System.out.println('\n');
+		return "c " + j1 + " " + j2;
+	}
+	
 	public String menu(){
 		if (!this.estMenuSecondaire)
 			printLogo();
@@ -273,12 +320,17 @@ public class Menu {
 						System.out.println("Impossible de sauvegarder si aucune partie est lancée.");
 					}
 					break;
+				case "credit":
+					this.credit();
+					break;
 				case "h": 
 					this.help();
 					break;
 				case "r": 
 					this.regles();
 					break;
+				case "c":
+					return this.changer();
 				case "q":
 					return str;
 				case "f":
