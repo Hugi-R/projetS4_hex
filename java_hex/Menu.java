@@ -39,12 +39,7 @@ public class Menu {
 		"\n	- {undo, u} nombre					=> défait les \"nombre\" derniers coups joués\n"+
 		"ex. u 2						=> revient de 2 coups en arrière\n"+
 		"\n	- qs 							=> (quick save) sauvegarde rapide, utilise le nom de la partie pour sauvegarder\n"+
-		"\n	- a							=> afficher la grille de la partie en cours\n"+
-		"\n	- c joueur1 joueur2					=> changer les joueurs. permet de passer d'un joueur humain (h) à ordinateur (o) ou inversement\n"+
-		"ex. c h h					=> la partie en cours continura avec les deux joueurs humain. C'est le cas par défaut\n"+
-		"ex. c h o					=> le joueur1 sera humain, le joueur2 sera joué par la machine\n"+
-		"ex. c o h					=> le joueur1 sera un ordinateur et le joueur2 un humain\n"+
-		"remarque: \"c o o\" est également possible, les deux joueurs seront des ordinateurs et la partie se jouera entièrement toute seule\n");
+		"\n	- a							=> afficher la grille de la partie en cours\n");
 
 		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
 		sc.nextLine();
@@ -137,6 +132,7 @@ public class Menu {
 			System.out.println("	l: (load) charger une partie");
 		}
 		if (this.estMenuSecondaire){
+			System.out.println("	c: changer de joueur");
 			System.out.println("	s: sauvegarder la partie en cours");
 			System.out.println("	q: quitter la partie sans sauvegarder");
 		}
@@ -261,6 +257,37 @@ public class Menu {
 		sc.nextLine();
 	}
 	
+	private String changer(){
+		String j1, j2, str;
+		do {
+			System.out.println("Veuillez saisir le type du joueur 1: humain (h) ou ordinateur (o)");
+			str = sc.nextLine();
+			if (!(str.equals("h") || str.equals("o")))
+				System.out.print("Saisie incorrecte. ");
+		} while (!(str.equals("h") || str.equals("o")));
+		j1 = str;
+		do {
+			System.out.println("Veuillez saisir le type du joueur 2: humain (h) ou ordinateur (o)");
+			str = sc.nextLine();
+			if (!(str.equals("h") || str.equals("o")))
+				System.out.print("Saisie incorrecte. ");
+		} while (!(str.equals("h") || str.equals("o")));
+		j2 = str;
+		
+		System.out.print("Le joueur 1 est maintenant un ");
+		if (j1.equals("h"))
+			System.out.print("humain");
+		else
+			System.out.print("ordinateur");
+		System.out.print(" et le joueur 2 est un ");
+		if (j2.equals("h"))
+			System.out.print("humain");
+		else
+			System.out.print("ordinateur");
+		System.out.println(\n);
+		return "c " + j1 + " " + j2;
+	}
+	
 	public String menu(){
 		if (!this.estMenuSecondaire)
 			printLogo();
@@ -302,6 +329,8 @@ public class Menu {
 				case "r": 
 					this.regles();
 					break;
+				case "c":
+					return this.changer();
 				case "q":
 					return str;
 				case "f":
