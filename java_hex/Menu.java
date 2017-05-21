@@ -100,7 +100,7 @@ public class Menu {
 		
 		System.out.println("\n\nLes coups:\n");
 		System.out.println("	Chaque joueur joue à tour de rôle en posant un pion sur une case libre\n"+
-		"n’importe où sur le plateau de jeu. Le premier qui crée un chemin contigu de pions gagne la partie.\n");
+		"n’importe où sur le plateau de jeu. Le premier qui crée un chemin contigu de pions gagne la partie.\nLe joueur Noir engage la partie\n");
 
 		System.out.println("Appuyez sur Entrée pour revenir au menu précédent");
 		sc.nextLine();

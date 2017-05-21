@@ -177,7 +177,7 @@ public class Partie{
 			if(a == 1) return 0;
 		}while( g.vainqueur() == 0);
 		System.out.println(g.toString());
-		System.out.println("Le vainqueur est joueur " + j.getNom() + " !");
+		System.out.println("FELICITATIONS !!\nLe vainqueur est joueur " + j.getNom() + " !\n");
 		return 0;
 	}
 }
