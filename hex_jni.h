@@ -101,8 +101,8 @@ JNIEXPORT jint JNICALL Java_java_1hex_partie_Partie_sauvegarderPartie
  * Method:    chargerPartie
  * Signature: (Ljava/lang/String;ILjava/lang/String;)J
  */
-JNIEXPORT jlong JNICALL Java_java_1hex_partie_Partie_chargerPartie
-  (JNIEnv *, jobject, jstring, jstring);
+JNIEXPORT jstring JNICALL Java_java_1hex_partie_Partie_chargerPartie
+  (JNIEnv *, jobject, jstring);
 
 #ifdef __cplusplus
 }

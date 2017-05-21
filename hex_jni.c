@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <math.h>
+#include <string.h>
 
 #include "hex_jni.h"
 #include "grille.h"
@@ -125,8 +126,8 @@ JNIEXPORT jint JNICALL Java_java_1hex_partie_Partie_sauvegarderPartie
 	  return ret;
   }
   
-JNIEXPORT jlong JNICALL Java_java_1hex_partie_Partie_chargerPartie
-  (JNIEnv *env, jobject o, jstring nomPartie, jstring historique)
+JNIEXPORT jstring JNICALL Java_java_1hex_partie_Partie_chargerPartie
+  (JNIEnv *env, jobject o, jstring nomPartie)
   {
 	  const char *nom = (*env)->GetStringUTFChars(env, nomPartie, 0);
 	  char *hist;
@@ -137,11 +138,19 @@ JNIEXPORT jlong JNICALL Java_java_1hex_partie_Partie_chargerPartie
 		  return 0;
 	  }
 	  
+	  long tmp = (long)g;
+	  char *tmpS = (char*) malloc(22);
+	  sprintf(tmpS, "%ld_", tmp);
+	  int t = strlen(hist);
+	  tmpS = (char*) realloc(tmpS,22+t);
+	  strcat(tmpS,hist);
+
 	  (*env)->ReleaseStringUTFChars(env, nomPartie, nom);
-	  historique = (*env)->NewStringUTF(env, hist);
+	  jstring retS = (*env)->NewStringUTF(env, tmpS);
 	  free(hist);
+	  free(tmpS);
 	  
-	  return (jlong)g;
+	  return retS;
   }
   
   
