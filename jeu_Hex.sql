@@ -1,5 +1,3 @@
-voici ma base de donnée :
-```SQL
 DROP TABLE jouer;
 DROP TABLE partie;
 DROP TABLE joueur;
@@ -76,4 +74,4 @@ SELECT DISTINCT id_partie FROM partie , joueur WHERE pseudo = 'FOXcard' AND etat
 SELECT DISTINCT pseudo FROM partie, joueur WHERE (joueur1 = 'FOXcard' OR joueur2= 'FOXcard') AND pseudo != 'FOXcard';
 @retrouver les parties débutée par un coup donné
 SELECT DISTINCT id_partie FROM jouer , partie WHERE numeroDuCoup = 1 AND coup = 16;
-```
+
